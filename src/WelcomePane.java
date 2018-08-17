@@ -25,16 +25,6 @@ public class WelcomePane extends JFrame {
     }
 
     private void initPanel() {
-        ColoredLabel welcome = new ColoredLabel("Welcome!");
-        ColoredLabel tellus = new ColoredLabel("Tell us a bit about yourself");
-        ColoredLabel fname = new ColoredLabel("First Name:");
-        ColoredLabel lname = new ColoredLabel("Last Name:");
-        DarkButton proceed = new DarkButton("Proceed", DarkButton.GREEN);
-        DarkButton exit = new DarkButton("Exit", DarkButton.RED);
-        GridBagConstraints constraints = new GridBagConstraints();
-        DarkTextField fnameField = new DarkTextField();
-        DarkTextField lnameField = new DarkTextField();
-
         panel.setBackground(Color.DARK_GRAY);
         welcome.setFont(new Font("Sans Serif", Font.BOLD, 70));
         tellus.setFont(new Font("Sans Serif", Font.PLAIN, 16));
@@ -43,21 +33,30 @@ public class WelcomePane extends JFrame {
         proceed.setFont(new Font("Sans Serif", Font.BOLD, 13));
         exit.setFont(new Font("Sans Serif", Font.PLAIN, 12));
 
+        adjustTitleConstraints();
+        adjustSubtitleConstraints();
+        adjustLabelConstraints();
+        adjustTextFieldConstraints();
+        adjustButtonConstraints();
+    }
+
+    private void adjustTitleConstraints() {
         constraints.insets = new Insets(10, 10, 2, 10);
         constraints.gridx = 2;
         constraints.gridy = 2;
         constraints.gridwidth = 3;
         constraints.gridheight = 1;
         panel.add(welcome, constraints);
+    }
 
-        constraints.insets.top = 0;
-        constraints.insets.bottom = 30;
+    private void adjustSubtitleConstraints() {
+        constraints.insets = new Insets(0, 10, 30, 10);
         constraints.gridy = 3;
         panel.add(tellus, constraints);
+    }
 
-        constraints.insets.bottom = 10;
-        constraints.insets.right = 10;
-        constraints.insets.left = 150;
+    private void adjustLabelConstraints() {
+        constraints.insets = new Insets(0, 150, 10, 10);
         constraints.gridy = 5;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.EAST;
@@ -65,9 +64,10 @@ public class WelcomePane extends JFrame {
 
         constraints.gridy = 6;
         panel.add(lname, constraints);
+    }
 
-        constraints.insets.right = 150;
-        constraints.insets.left = 10;
+    private void adjustTextFieldConstraints() {
+        constraints.insets = new Insets(0, 10, 10, 150);
         constraints.gridx = 3;
         constraints.gridy = 5;
         constraints.gridwidth = 2;
@@ -78,10 +78,11 @@ public class WelcomePane extends JFrame {
 
         constraints.gridy = 6;
         panel.add(lnameField, constraints);
+    }
 
-        constraints.insets.left = 10;
-        constraints.insets.right = 10;
-        constraints.insets.top = 18;
+    private void adjustButtonConstraints(){
+        constraints.insets = new Insets(20, 10, 10, 10);
+        // constraints.insets.top = 18;
         constraints.gridx = 2;
         constraints.gridy = 7;
         constraints.gridwidth = 3;
@@ -90,7 +91,6 @@ public class WelcomePane extends JFrame {
         panel.add(proceed, constraints);
 
         constraints.insets.top = 5;
-        constraints.insets.bottom = 10;
         constraints.gridy = 8;
         panel.add(exit, constraints);
     }
