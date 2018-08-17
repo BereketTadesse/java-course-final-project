@@ -1,6 +1,7 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+@Deprecated
 public interface CustomMouseListener extends MouseListener {
     @Override
     void mouseClicked(MouseEvent e);
@@ -15,7 +16,23 @@ public interface CustomMouseListener extends MouseListener {
     void mousePressed(MouseEvent e);
 }
 
-interface MouseClickListener extends MouseListener {
+abstract class MouseClickListener implements MouseListener {
     @Override
-    void mouseClicked(MouseEvent e);
+    public abstract void mouseClicked(MouseEvent e);
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 }

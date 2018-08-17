@@ -38,6 +38,7 @@ public class WelcomePane extends JFrame {
         adjustLabelConstraints();
         adjustTextFieldConstraints();
         adjustButtonConstraints();
+        addEventHandlers();
     }
 
     private void adjustTitleConstraints() {
@@ -93,5 +94,25 @@ public class WelcomePane extends JFrame {
         constraints.insets.top = 5;
         constraints.gridy = 8;
         panel.add(exit, constraints);
+    }
+
+    private void addEventHandlers() {
+        proceed.addMouseListener(new ProceedButtonAction());
+        exit.addMouseListener(new ExitButtonAction());
+    }
+
+
+    class ProceedButtonAction extends MouseClickListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            dispose();
+        }
+    }
+
+    class ExitButtonAction extends MouseClickListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            System.exit(0);
+        }
     }
 }
