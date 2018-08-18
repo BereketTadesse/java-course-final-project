@@ -33,3 +33,24 @@ class Expense extends Transaction {
 class Income extends Transaction {
     public final int getType() { return INCOME; }
 }
+
+class User {
+    private String fname;
+    private String lname;
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+}
