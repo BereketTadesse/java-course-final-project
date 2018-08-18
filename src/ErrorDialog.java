@@ -17,8 +17,9 @@ public abstract class ErrorDialog extends JDialog {
         panel.setBackground(Color.DARK_GRAY);
         cp.add(panel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocation(533, 250);
+        setUndecorated(true);
         setVisible(true);
-        setLocation(533, 234);
     }
 
     private void init() {
@@ -36,7 +37,7 @@ public abstract class ErrorDialog extends JDialog {
 
         // Error text
         constraints.gridx = 1;
-        constraints.insets = new Insets(20, 0, 0, 20);
+        constraints.insets = new Insets(30, 0, 0, 20);
         constraints.gridheight = 1;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.NONE;
@@ -55,7 +56,7 @@ public abstract class ErrorDialog extends JDialog {
     protected void writeFailText(String text) {
         failText.setText(text);
         failText.setFontSize(12);
-        constraints.insets = new Insets(-10, 0, 0, 20);
+        constraints.insets = new Insets(-25, 0, 0, 20);
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.anchor = GridBagConstraints.WEST;
