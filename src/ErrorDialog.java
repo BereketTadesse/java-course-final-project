@@ -7,7 +7,8 @@ public abstract class ErrorDialog extends JDialog {
     private static DarkButton ok = new DarkButton("OK");
     private ImageIcon errorIcon = new ImageIcon(getClass().getResource("files/images/error-icon.png"));
     private JLabel icon = new JLabel(errorIcon);
-    private static ColoredLabel error = new ColoredLabel("Error!", new Color(200, 0, 0));
+    public static final Color ERROR_TEXT_COLOR = new Color(200, 80, 80);
+    private static ColoredLabel error = new ColoredLabel("Error!", ERROR_TEXT_COLOR);
     private ColoredLabel failText = new ColoredLabel();
     private JPanel panel = new JPanel(new GridBagLayout());
     private GridBagConstraints constraints = new GridBagConstraints();

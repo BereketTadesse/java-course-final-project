@@ -1,6 +1,7 @@
 /** Defines both Incomes and Expenses as transactions with identifying methods for use in operations
  */
 
+@Deprecated
 public abstract class Transaction {
     private int id;
     private String name, description;
@@ -25,32 +26,13 @@ public abstract class Transaction {
     public void setID(int id) { this.id = id;}
 }
 
+@Deprecated
 // Distinguishing classes
 class Expense extends Transaction {
     public final int getType() { return EXPENSE; }
 }
 
+@Deprecated
 class Income extends Transaction {
     public final int getType() { return INCOME; }
-}
-
-class User {
-    private String fname;
-    private String lname;
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
-    public String getFname() {
-        return fname;
-    }
-
-    public String getLname() {
-        return lname;
-    }
 }

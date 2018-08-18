@@ -9,6 +9,7 @@ class WelcomePane extends JFrame {
     private ColoredLabel tellus = new ColoredLabel("Tell us a bit about yourself");
     private ColoredLabel fname = new ColoredLabel("First Name:");
     private ColoredLabel lname = new ColoredLabel("Last Name:");
+    private ColoredLabel fnameError = new ColoredLabel("First name can not be empty", ErrorDialog.ERROR_TEXT_COLOR);
     private DarkButton proceed = new DarkButton("Proceed", DarkButton.GREEN);
     private DarkButton exit = new DarkButton("Exit", DarkButton.RED);
     private GridBagConstraints constraints = new GridBagConstraints();
@@ -49,6 +50,7 @@ class WelcomePane extends JFrame {
         adjustTextFieldConstraints();
         adjustButtonConstraints();
         addEventHandlers();
+        addInvisibleError();
     }
 
     private void adjustTitleConstraints() {
@@ -95,15 +97,30 @@ class WelcomePane extends JFrame {
         constraints.insets = new Insets(20, 10, 10, 10);
         // constraints.insets.top = 18;
         constraints.gridx = 2;
-        constraints.gridy = 7;
+        constraints.gridy = 8;
         constraints.gridwidth = 3;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.fill = GridBagConstraints.NONE;
         panel.add(proceed, constraints);
 
         constraints.insets.top = 5;
-        constraints.gridy = 8;
+        constraints.gridy = 9;
         panel.add(exit, constraints);
+    }
+
+    private void addInvisibleError() {
+        constraints.gridy = 7;
+        constraints.gridwidth = 3;
+        constraints.insets = new Insets(20, 10, 0, 10);
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.fill = GridBagConstraints.NONE;
+        fnameError.setFont(new Font("Sans Serif", Font.BOLD, 12));
+        panel.add(fnameError, constraints);
+        fnameError.setVisible(false);
+    }
+
+    private void displayError() {
+        fnameError.setVisible(true);
     }
 
     private void addEventHandlers() {
@@ -115,10 +132,18 @@ class WelcomePane extends JFrame {
     class ProceedButtonAction extends MouseClickListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            // fnameField.getText();
-            new FileCreationError();
-            setVisible(false);
-            dispose();
+            String fnameText = fnameField.getText();
+            String lnameText = lnameField.getText();
+
+            if (fnameText.isEmpty()) {
+                displayError();
+            }
+            else {
+                fnameError.setVisible(false);
+                FileHandler.createUserFile(new User(fnameText, lnameText));
+                setVisible(false);
+                dispose();
+            }
         }
     }
 
