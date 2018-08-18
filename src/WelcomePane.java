@@ -1,27 +1,37 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.event.MouseEvent;
+import java.net.URL;
 
-public class WelcomePane extends JFrame {
-    void initImages() throws IOException {
-        // ImageIcon closebtnHover = new ImageIcon(getClass().getResource("./files/img/closebtn_hover.png"));
-        ImageIcon button = new ImageIcon("files/images/closebtn.png");
-        JLabel closebtn = new JLabel(button);
-        getContentPane().setLayout(new GridBagLayout());
-        GridBagConstraints g = new GridBagConstraints();
-        g.gridy = 0;
-        g.gridx = 1;
-        g.anchor = GridBagConstraints.NORTHEAST;
-        getContentPane().add(closebtn);
-        g.gridx = 0;
-        g.gridy = 1;
-        g.anchor = GridBagConstraints.WEST;
-        getContentPane().add(new JLabel("Close btn Try"), g);
-        // super.setUndecorated(true);
-        super.setSize(1280, 720);
-        setBackground(Color.darkGray);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        super.setVisible(true);
+class WelcomePane extends JFrame {
+    private JPanel panel = new JPanel(new GridBagLayout());
+    private ColoredLabel welcome = new ColoredLabel("Welcome!");
+    private ColoredLabel tellus = new ColoredLabel("Tell us a bit about yourself");
+    private ColoredLabel fname = new ColoredLabel("First Name:");
+    private ColoredLabel lname = new ColoredLabel("Last Name:");
+    private DarkButton proceed = new DarkButton("Proceed", DarkButton.GREEN);
+    private DarkButton exit = new DarkButton("Exit", DarkButton.RED);
+    private GridBagConstraints constraints = new GridBagConstraints();
+    private DarkTextField fnameField = new DarkTextField();
+    private DarkTextField lnameField = new DarkTextField();
+
+    WelcomePane() {
+        // ImageIcon icon = new ImageIcon("./files/images/icon(32x32).png");
+        Container contentPane = getContentPane();
+        initPanel();
+        contentPane.add(panel);
+        setTitle("Welcome");
+        setSize(640, 360);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
+        URL imgurl = getClass().getResource("files/images/icon(32x32_light).png");
+        if (imgurl != null) {
+            ImageIcon icon = new ImageIcon(imgurl);
+            setIconImage(icon.getImage());
+        }
+        setLocation(363, 204);
+        setVisible(true);
     }
 
     private void initPanel() {
