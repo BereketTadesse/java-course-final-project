@@ -1,22 +1,10 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-@Deprecated
-public interface CustomMouseListener extends MouseListener {
-    @Override
-    void mouseClicked(MouseEvent e);
-
-    @Override
-    void mouseEntered(MouseEvent e);
-
-    @Override
-    void mouseExited(MouseEvent e);
-
-    @Override
-    void mousePressed(MouseEvent e);
-}
-
-abstract class MouseClickListener implements MouseListener {
+// Since there are other ways of handling mouse inputs that are not clicks,
+// it's better to override every method from MouseListener that's not "mouseClicked" once through an abstract class
+// instead of doing it every time a listener is added
+public abstract class MouseClickListener implements MouseListener {
     @Override
     public abstract void mouseClicked(MouseEvent e);
 
