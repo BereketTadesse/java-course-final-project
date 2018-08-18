@@ -73,7 +73,6 @@ public class DarkButton extends JButton {
         else
             setForeground(FONT_COLOR);
 
-
         if (!isEnabled())
             setBackground(DEFAULT_DISABLED_COLOR);
 

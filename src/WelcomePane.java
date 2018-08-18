@@ -105,6 +105,8 @@ public class WelcomePane extends JFrame {
     class ProceedButtonAction extends MouseClickListener {
         @Override
         public void mouseClicked(MouseEvent e) {
+            // fnameField.getText();
+            new FileCreationError();
             setVisible(false);
             dispose();
         }
