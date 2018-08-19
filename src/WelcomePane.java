@@ -143,6 +143,7 @@ class WelcomePane extends JFrame {
                 FileHandler.createUserFile(new User(fnameText, lnameText));
                 setVisible(false);
                 dispose();
+                new MainScreen();
             }
         }
     }

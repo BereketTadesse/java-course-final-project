@@ -5,9 +5,11 @@ public class Tester {
         // new ResolutionPane();
         if (!FileHandler.userFileExists())
             new WelcomePane();
-        else
+        else {
             FileHandler.userFileRead(user);
-        view();
+            new MainScreen();
+        }
+        // view();
     }
 
     public static void setUserFname(String fname) {

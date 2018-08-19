@@ -6,8 +6,8 @@ import java.awt.*;
  */
 public class DarkButton extends JButton {
     private static final Color FONT_COLOR = new Color(200, 200, 200);
-    private static final Color DEFAULT_COLOR = new Color(80, 80,80);
-    private static final Color DEFAULT_PRESSED_COLOR = new Color(96, 96, 96);
+    public static final Color DEFAULT_COLOR = new Color(80, 80,80);
+    public static final Color DEFAULT_PRESSED_COLOR = new Color(96, 96, 96);
     private static final Color DEFAULT_DISABLED_COLOR = new Color(72, 72, 72);
     private static final Color GREEN_COLOR = new Color(80, 128,80);
     private static final Color GREEN_PRESSED_COLOR = new Color(96, 160,96);
