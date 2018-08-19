@@ -24,6 +24,8 @@ public class MainScreen {
 
     User user = new User();
 
+    public static Color LINK_COLOR = new Color(49, 115, 175);
+
     MainScreen() {
         // addContact.add(contact);
         file.add(addContact);

@@ -4,9 +4,9 @@ class Contact {
     private String lname;
     private String[] phoneNumbers;
     private static int currentMaxId = 10000;
+    private static int availablePhones = 0;
 
-    public static final int PHONE = 0;
-    public static final int EMAIL = 1;
+    public static final int MAX_PHONES = 5;
 
     Contact(Contact c) {
         this.id = c.id;
@@ -36,6 +36,10 @@ class Contact {
         this.lname = lname;
     }
 
+    public static int getAvailablePhones() {
+        return availablePhones;
+    }
+
     public void addPhoneNumbers(String newNumber) {
         String[] newList = new String[phoneNumbers.length + 1];
 
@@ -63,6 +67,8 @@ class Contact {
     public void incrementMaxId() {
         currentMaxId++;
     }
+
+    public void incrementAvailablePhones() { availablePhones++; }
 }
 
 
