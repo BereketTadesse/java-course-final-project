@@ -5,6 +5,7 @@ import java.awt.*;
 class DarkTextField extends JTextField {
     private static Color DEFAULT_COLOR = new Color(72,72,72);
     private static Color FONT_COLOR = new Color(146, 146, 146);
+    public static Color DEFAULT_BORDER_COLOR = new Color(56, 56, 56);
 
     DarkTextField() {
         adjustColor(DEFAULT_COLOR);
@@ -26,7 +27,7 @@ class DarkTextField extends JTextField {
 
     private void adjustColor(Color color) {
         setBackground(color);
-        setBorder(new LineBorder(new Color(56, 56, 56)));
+        setBorder(new LineBorder(DEFAULT_BORDER_COLOR));
         setForeground(FONT_COLOR);
     }
 }
