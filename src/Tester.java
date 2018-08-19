@@ -6,7 +6,7 @@ public class Tester {
         if (!FileHandler.userFileExists())
             new WelcomePane();
         else {
-            FileHandler.userFileRead(user);
+            FileHandler.readUserFile(user);
             new MainScreen();
         }
         // view();

@@ -82,3 +82,9 @@ class FileCreationError extends ErrorDialog {
         writeFailText(errorText);
     }
 }
+
+class UserFileError extends ErrorDialog {
+    String errorText = "Userfile missing.";
+
+    UserFileError() { writeFailText(errorText); }
+}

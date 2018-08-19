@@ -15,7 +15,7 @@ public class FileHandler {
         }
     }
 
-    public static boolean userFileRead(User user) {
+    public static boolean readUserFile(User user) {
             try (InputStream fnameInputStream = new FileInputStream(fnameFile);
                  InputStream lnameInputStream = new FileInputStream(lnameFile)
             ) {
