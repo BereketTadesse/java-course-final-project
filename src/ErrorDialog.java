@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 
 public abstract class ErrorDialog extends JDialog {
     private Container cp = getContentPane();
@@ -17,6 +18,13 @@ public abstract class ErrorDialog extends JDialog {
         init();
         panel.setBackground(Color.DARK_GRAY);
         cp.add(panel);
+
+        URL imgurl = getClass().getResource("files/images/icon(32x32_light).png");
+        if (imgurl != null) {
+            ImageIcon icon = new ImageIcon(imgurl);
+            setIconImage(icon.getImage());
+        }
+        setTitle("Error");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocation(533, 250);
         setUndecorated(true);

@@ -4,20 +4,26 @@ import java.net.URL;
 
 public class MainScreen {
     JFrame frame = new JFrame("Contacts");
+    Container contentPane = frame.getContentPane();
+
     private JPanel panel = new JPanel(new GridBagLayout());
     GridBagConstraints constraints = new GridBagConstraints();
-    Container contentPane = frame.getContentPane();
+
+    private static final String EMPTY_SPACE = "            ";
+
     DarkMenuBar menuBar = new DarkMenuBar();
     DarkMenu file = new DarkMenu("File");
     DarkMenu edit = new DarkMenu("Edit");
-    DarkMenu newMenu = new DarkMenu("New");
-    DarkMenuItem contact = new DarkMenuItem("Contact");
+    DarkMenu newMenu = new DarkMenu("New" + EMPTY_SPACE);
+    DarkMenuItem exit = new DarkMenuItem("Exit" + EMPTY_SPACE);
+    DarkMenuItem contact = new DarkMenuItem("Contact" + EMPTY_SPACE);
 
     User user = new User();
 
     MainScreen() {
         newMenu.add(contact);
         file.add(newMenu);
+        file.add(exit);
         panel.setBackground(Color.DARK_GRAY);
         contentPane.add(panel);
         menuBar.add(file);
@@ -25,7 +31,6 @@ public class MainScreen {
         // frame.add(menuBar, BorderLayout.NORTH);
         frame.setJMenuBar(menuBar);
         init();
-
 
         URL imgurl = getClass().getResource("files/images/icon(32x32_light).png");
         if (imgurl != null) {
