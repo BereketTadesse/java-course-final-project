@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 public class FileHandler {
     private static String fnameFile = "src/files/main/userdata/fname.dat"; // For some reason, the file stream starts from a
     private static String lnameFile = "src/files/main/userdata/lname.dat"; // different directory to ImageIcon
+    private static String contactDir = "src/files/main/contacts";
 
     public static boolean userFileExists() {
         try {
@@ -51,5 +52,25 @@ public class FileHandler {
             new FileCreationError();
             return false;
         }
+    }
+
+    public boolean saveContactFile(Contact contact) {
+        try (OutputStream contactStream = new FileOutputStream(generateContactFileName(contact))) {
+            File contactFile = new File(generateContactFileName(contact));
+            ObjectOutputStream objSave = new ObjectOutputStream(contactStream);
+            if (!contactFile.exists()) {
+                objSave.writeObject(contact);
+                return true;
+            }
+            else
+                return false;
+        }
+        catch (IOException exception) {
+            return false;
+        }
+    }
+
+    public static String generateContactFileName(Contact contact) {
+        return contactDir + "/" + Integer.toString(contact.getId()) + ".cfile";
     }
 }

@@ -13,6 +13,7 @@ class Contact {
         this.fname = c.fname;
         this.lname = c.lname;
         this.phoneNumbers = c.phoneNumbers;
+        incrementMaxId();
     }
 
     Contact(int id, String fname, String lname, String[] phoneNumbers) {
@@ -20,6 +21,7 @@ class Contact {
         this.fname = fname;
         this.lname = lname;
         this.phoneNumbers = phoneNumbers;
+        incrementMaxId();
     }
 
     public void setId(int id) {
@@ -40,6 +42,22 @@ class Contact {
         for (int i = 0; i < phoneNumbers.length; i++)
             newList[i] = phoneNumbers[i];
         newList[newList.length - 1] = newNumber;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public String[] getPhoneNumbers() {
+        return phoneNumbers;
     }
 
     public void incrementMaxId() {

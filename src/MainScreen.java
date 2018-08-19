@@ -6,25 +6,29 @@ public class MainScreen {
     JFrame frame = new JFrame("Contacts");
     Container contentPane = frame.getContentPane();
 
+    public static final Color DARKER_GRAY = new Color(48, 48, 48);
+
     private JPanel panel = new JPanel(new GridBagLayout());
     GridBagConstraints constraints = new GridBagConstraints();
 
-    private static final String EMPTY_SPACE = "            ";
+    JList contacts = new JList();
+
+    private static final String EMPTY_SPACE = "                ";
 
     DarkMenuBar menuBar = new DarkMenuBar();
     DarkMenu file = new DarkMenu("File");
     DarkMenu edit = new DarkMenu("Edit");
-    DarkMenu newMenu = new DarkMenu("New" + EMPTY_SPACE);
+    DarkMenuItem addContact = new DarkMenuItem("Add contact" + EMPTY_SPACE);
     DarkMenuItem exit = new DarkMenuItem("Exit" + EMPTY_SPACE);
-    DarkMenuItem contact = new DarkMenuItem("Contact" + EMPTY_SPACE);
+    // DarkMenuItem contact = new DarkMenuItem("Contact" + EMPTY_SPACE);
 
     User user = new User();
 
     MainScreen() {
-        newMenu.add(contact);
-        file.add(newMenu);
+        // addContact.add(contact);
+        file.add(addContact);
         file.add(exit);
-        panel.setBackground(Color.DARK_GRAY);
+        panel.setBackground(DARKER_GRAY);
         contentPane.add(panel);
         menuBar.add(file);
         menuBar.add(edit);
@@ -41,6 +45,7 @@ public class MainScreen {
         frame.setLocation(43, 24);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        new NewContactDialog();
     }
 
     private void init() {
@@ -64,5 +69,12 @@ public class MainScreen {
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridwidth = 4;
         panel.add(welcomeText, constraints);
+    }
+
+    private void addElements() {
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 3;
+
     }
 }
