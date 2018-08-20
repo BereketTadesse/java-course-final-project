@@ -5,8 +5,8 @@ class Contact implements Serializable {
     private String fname;
     private String lname;
     private String[] phoneNumbers;
-    private static int currentMaxId = 10000;
-    private static int availableContacts = 0;
+    private static int initialContactID = 10000;
+    public static int availableContacts = 0;
 
     public static final int MAX_PHONES = 5;
 
@@ -18,15 +18,14 @@ class Contact implements Serializable {
         this.fname = c.fname;
         this.lname = c.lname;
         this.phoneNumbers = c.phoneNumbers;
-        incrementMaxId();
+        availableContacts++;
     }
 
     Contact(String fname, String lname, String[] phoneNumbers) {
-        this.id = currentMaxId;
+        this.id = initialContactID + availableContacts;
         this.fname = fname;
         this.lname = lname;
         this.phoneNumbers = phoneNumbers;
-        incrementMaxId();
         availableContacts++;
     }
 
@@ -70,8 +69,8 @@ class Contact implements Serializable {
         return phoneNumbers;
     }
 
-    public void incrementMaxId() {
-        currentMaxId++;
+    public static int getInitialContactID() {
+        return initialContactID;
     }
 
     public void view() {

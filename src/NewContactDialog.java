@@ -28,7 +28,7 @@ public class NewContactDialog extends JDialog {
     private DarkButton addContact = new DarkButton("Add contact", DarkButton.BLUE);
     private DarkButton cancel = new DarkButton("Cancel");
 
-    private Contact contact;
+    private static Contact contact;
 
     NewContactDialog() {
         init();
@@ -99,7 +99,7 @@ public class NewContactDialog extends JDialog {
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridwidth = 2;
             constraints.fill = GridBagConstraints.HORIZONTAL;
-            phoneFields[i] = new DarkTextField();
+            phoneFields[i] = new DarkTextField("+");
             panel.add(phoneFields[i], constraints);
             if (i > 0)
                 phoneFields[i].setVisible(false);
@@ -168,7 +168,8 @@ public class NewContactDialog extends JDialog {
     private class PhoneLinkAction extends MouseClickListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (phoneFields[phoneInputsCount - 1].getText().isEmpty()) {
+            String prevPhoneFieldContent = phoneFields[phoneInputsCount - 1].getText();
+            if (prevPhoneFieldContent.isEmpty() || prevPhoneFieldContent.equals("+")) {
                 genericErrorText.setText(phoneNumberAddError);
                 genericErrorText.setVisible(true);
             }
@@ -194,7 +195,10 @@ public class NewContactDialog extends JDialog {
     private class AddContactButtonAction extends MouseClickListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (fnameField.getText().isEmpty() || phoneFields[0].getText().isEmpty()) {
+            String fnameFieldContent = fnameField.getText();
+            String phoneFieldContent = phoneFields[0].getText();
+
+            if (fnameFieldContent.isEmpty() || phoneFieldContent.isEmpty() || phoneFieldContent.equals("+")) {
                 genericErrorText.setVisible(false);
                 genericErrorText.setText(notEnoughInfo);
                 genericErrorText.setVisible(true);
@@ -202,15 +206,19 @@ public class NewContactDialog extends JDialog {
             else {
                 genericErrorText.setVisible(false);
                 String[] numbers = new String[Contact.MAX_PHONES];
+
                 for (int i = 0; i < Contact.MAX_PHONES; i++) {
                     if (!phoneFields[i].getText().isEmpty())
                         numbers[i] = phoneFields[i].getText();
                 }
+
                 contact = new Contact(fnameField.getText(), lnameField.getText(), numbers);
+
                 if (!FileHandler.saveContactFile(contact))
                     new ContactSaveError();
                 else {
-                    FileHandler.readContactFile(10000);
+                    MainScreen.updateContactList(contact);
+                    // FileHandler.readContactFile(10000);
                     dispose();
                 }
             }

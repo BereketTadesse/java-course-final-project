@@ -1,10 +1,13 @@
 import java.io.*;
 import java.nio.charset.Charset;
 
+import static java.lang.Integer.valueOf;
+
 public class FileHandler {
     private static String fnameFile = "src/files/main/userdata/fname.dat"; // For some reason, the file stream starts from a
     private static String lnameFile = "src/files/main/userdata/lname.dat"; // different directory to ImageIcon
     private static String contactDir = "src/files/main/contacts";
+    private static String maxFile = contactDir + "/max.dat";
 
     public static boolean userFileExists() {
         try {
@@ -77,7 +80,7 @@ public class FileHandler {
     public static Contact readContactFile(int id) {
         try (InputStream contactInStream = new FileInputStream(generateContactFileName(id))) {
             ObjectInputStream objStream = new ObjectInputStream(contactInStream);
-            Contact contact;
+            // Contact contact;
             return (Contact) objStream.readObject();
         }
         catch (Exception exception) {
@@ -88,9 +91,16 @@ public class FileHandler {
     }
 
     private static void saveMaxFile(int availableContacts) {
-        try (OutputStream maxFileStream = new FileOutputStream(contactDir + "/max.dat")) {
-            byte[] bytes = Integer.toString(availableContacts).getBytes();
-            maxFileStream.write(bytes);
+        Integer availableContactsWrapper = valueOf(availableContacts);
+
+        try (OutputStream maxFileStream = new FileOutputStream(maxFile)) {
+            File maxFileCheck = new File(maxFile);
+            ObjectOutputStream maxFileObjStream = new ObjectOutputStream(maxFileStream);
+            if (maxFileCheck.exists()) {
+                maxFileObjStream.writeObject(availableContactsWrapper);
+                maxFileObjStream.flush();
+                maxFileObjStream.close();
+            }
         }
         catch (IOException exception) {
             exception.printStackTrace();
@@ -98,9 +108,13 @@ public class FileHandler {
     }
 
     public static int readMaxFile() {
-        int availableContacts = 0;
-        try (InputStream maxFileInStream = new FileInputStream(contactDir + "/max.dat")) {
-            availableContacts = Integer.parseInt(maxFileInStream.readAllBytes().toString());
+        int availableContacts = Contact.getAvailableContacts();
+        Integer availableContactsWrapper;
+        try (InputStream maxFileInStream = new FileInputStream(maxFile)) {
+            ObjectInputStream maxFileObjInStream = new ObjectInputStream(maxFileInStream);
+            availableContactsWrapper = (Integer) maxFileObjInStream.readObject();
+            availableContacts = availableContactsWrapper.intValue();
+            System.out.println(availableContacts);
         }
         catch (IOException exception) {
             exception.printStackTrace();
@@ -109,6 +123,28 @@ public class FileHandler {
         finally {
             return availableContacts;
         }
+    }
+
+    public static boolean maxFileExists() {
+        try {
+            File file = new File(maxFile);
+            return file.exists();
+        }
+        catch (Exception exception) {
+            return false;
+        }
+
+    }
+
+    public static Contact[] readAllContacts() {
+        int numberOfContacts;
+        numberOfContacts = FileHandler.readMaxFile();
+        System.out.println(numberOfContacts);
+        Contact[] allContacts = new Contact[numberOfContacts];
+        for (int i = 0; i < numberOfContacts; i++) {
+            allContacts[i] = readContactFile(Contact.getInitialContactID() + i);
+        }
+        return allContacts;
     }
 
     public static String generateContactFileName(Contact contact) {
