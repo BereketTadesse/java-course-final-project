@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class MainScreen {
@@ -47,11 +49,16 @@ public class MainScreen {
         frame.setLocation(43, 24);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        new NewContactDialog();
     }
 
     private void init() {
         displayWelcomeMessage();
+        initMenuActionListeners();
+    }
+
+    private void initMenuActionListeners() {
+        addContact.addActionListener(new MenuItemActions());
+        exit.addActionListener(new MenuItemActions());
     }
 
     private void displayWelcomeMessage() {
@@ -78,5 +85,16 @@ public class MainScreen {
         constraints.gridwidth = 1;
         constraints.gridheight = 3;
 
+    }
+
+    class MenuItemActions implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String actionCommand = e.getActionCommand();
+            if (actionCommand.equals(addContact.getText()))
+                new NewContactDialog();
+            else if (actionCommand.equals(exit.getText()))
+                frame.dispose();
+        }
     }
 }

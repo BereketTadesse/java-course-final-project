@@ -1,12 +1,17 @@
-class Contact {
+import java.io.Serializable;
+
+class Contact implements Serializable {
     private int id;
     private String fname;
     private String lname;
     private String[] phoneNumbers;
     private static int currentMaxId = 10000;
-    private static int availablePhones = 0;
+    private static int availableContacts = 0;
 
     public static final int MAX_PHONES = 5;
+
+    Contact() {
+    }
 
     Contact(Contact c) {
         this.id = c.id;
@@ -16,12 +21,13 @@ class Contact {
         incrementMaxId();
     }
 
-    Contact(int id, String fname, String lname, String[] phoneNumbers) {
-        this.id = id;
+    Contact(String fname, String lname, String[] phoneNumbers) {
+        this.id = currentMaxId;
         this.fname = fname;
         this.lname = lname;
         this.phoneNumbers = phoneNumbers;
         incrementMaxId();
+        availableContacts++;
     }
 
     public void setId(int id) {
@@ -36,8 +42,8 @@ class Contact {
         this.lname = lname;
     }
 
-    public static int getAvailablePhones() {
-        return availablePhones;
+    public static int getAvailableContacts() {
+        return availableContacts;
     }
 
     public void addPhoneNumbers(String newNumber) {
@@ -68,7 +74,14 @@ class Contact {
         currentMaxId++;
     }
 
-    public void incrementAvailablePhones() { availablePhones++; }
+    public void view() {
+        System.out.println("ID: " + id);
+        System.out.println("First Name: " + fname);
+        System.out.println("Last Name: " + lname);
+        for (int i = 0; phoneNumbers[i] != null; i++)
+            System.out.println("Phone " + (i + 1) + ": " + phoneNumbers[i]);
+    }
+
 }
 
 

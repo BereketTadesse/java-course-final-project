@@ -54,23 +54,69 @@ public class FileHandler {
         }
     }
 
-    public boolean saveContactFile(Contact contact) {
+    public static boolean saveContactFile(Contact contact) {
         try (OutputStream contactStream = new FileOutputStream(generateContactFileName(contact))) {
             File contactFile = new File(generateContactFileName(contact));
             ObjectOutputStream objSave = new ObjectOutputStream(contactStream);
-            if (!contactFile.exists()) {
+            if (contactFile.exists()) {
                 objSave.writeObject(contact);
+                objSave.flush();
+                objSave.close();
+                saveMaxFile(Contact.getAvailableContacts());
                 return true;
             }
             else
                 return false;
         }
         catch (IOException exception) {
+            exception.printStackTrace();
             return false;
         }
     }
 
+    public static Contact readContactFile(int id) {
+        try (InputStream contactInStream = new FileInputStream(generateContactFileName(id))) {
+            ObjectInputStream objStream = new ObjectInputStream(contactInStream);
+            Contact contact;
+            return (Contact) objStream.readObject();
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            new ContactReadError();
+            return null;
+        }
+    }
+
+    private static void saveMaxFile(int availableContacts) {
+        try (OutputStream maxFileStream = new FileOutputStream(contactDir + "/max.dat")) {
+            byte[] bytes = Integer.toString(availableContacts).getBytes();
+            maxFileStream.write(bytes);
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public static int readMaxFile() {
+        int availableContacts = 0;
+        try (InputStream maxFileInStream = new FileInputStream(contactDir + "/max.dat")) {
+            availableContacts = Integer.parseInt(maxFileInStream.readAllBytes().toString());
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+            new ContactReadError();
+        }
+        finally {
+            return availableContacts;
+        }
+    }
+
     public static String generateContactFileName(Contact contact) {
-        return contactDir + "/" + Integer.toString(contact.getId()) + ".cfile";
+        return generateContactFileName(contact.getId());
+        // return contactDir + "/" + Integer.toString(contact.getId()) + ".cfile";
+    }
+
+    public static String generateContactFileName(int id) {
+        return contactDir + "/" + Integer.toString(id) + ".cfile";
     }
 }

@@ -19,10 +19,16 @@ public class NewContactDialog extends JDialog {
 
     private int phoneInputsCount = 1;
 
+    private String notEnoughInfo = "Enter a first name and one phone number";
+    private String phoneNumberAddError = "Enter Phone #" + Integer.toString(phoneInputsCount) + " before entering Phone #" + Integer.toString(phoneInputsCount + 1);
+    private ColoredLabel genericErrorText = new ColoredLabel(notEnoughInfo, ErrorDialog.ERROR_TEXT_COLOR);
+
     private ColoredLink addPhoneLink = new ColoredLink("Add another phone number");
 
     private DarkButton addContact = new DarkButton("Add contact", DarkButton.BLUE);
     private DarkButton cancel = new DarkButton("Cancel");
+
+    private Contact contact;
 
     NewContactDialog() {
         init();
@@ -44,8 +50,21 @@ public class NewContactDialog extends JDialog {
         initTitle();
         initInputs();
         initButtons();
-        addPhoneInput();
+        addPhoneInputs();
         addLink();
+        addInvisibleError();
+    }
+
+    private void addInvisibleError() {
+        constraints.gridx = 0;
+        constraints.gridy = 9;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.EAST;
+        constraints.insets = new Insets(20, 60, 0, 0);
+        constraints.weightx = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        panel.add(genericErrorText, constraints);
+        genericErrorText.setVisible(false);
     }
 
     private void addLink() {
@@ -58,7 +77,7 @@ public class NewContactDialog extends JDialog {
         addPhoneLink.addMouseListener(new PhoneLinkAction());
     }
 
-    private void addPhoneInput() {
+    private void addPhoneInputs() {
         for (int i = 0; i < Contact.MAX_PHONES; i++) {
             constraints.gridx = 0;
             constraints.gridy = 3 + i;
@@ -90,18 +109,20 @@ public class NewContactDialog extends JDialog {
 
     private void initButtons() {
         constraints.gridx = 0;
-        constraints.gridy = 9;
+        constraints.gridy = 10;
         constraints.anchor = GridBagConstraints.EAST;
-        constraints.insets = new Insets(70, 50, 30, 10);
+        constraints.insets = new Insets(50, 50, 30, 10);
         constraints.gridwidth = 2;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         // constraints.fill = GridBagConstraints.NONE;
         panel.add(addContact, constraints);
+        addContact.addMouseListener(new AddContactButtonAction());
 
         constraints.gridx = 2;
         constraints.gridwidth = 1;
-        constraints.insets = new Insets(70, 10, 30, 30);
+        constraints.insets = new Insets(50, 10, 30, 30);
         panel.add(cancel, constraints);
+        cancel.addMouseListener(new CancelButtonAction());
     }
 
     private void initInputs() {
@@ -136,7 +157,7 @@ public class NewContactDialog extends JDialog {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.insets = new Insets(5, 30, 40, 30);
+        constraints.insets = new Insets(0, 30, 40, 30);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridwidth = 3;
         constraints.fill = GridBagConstraints.BOTH;
@@ -147,10 +168,51 @@ public class NewContactDialog extends JDialog {
     private class PhoneLinkAction extends MouseClickListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (phoneInputsCount < Contact.MAX_PHONES) {
+            if (phoneFields[phoneInputsCount - 1].getText().isEmpty()) {
+                genericErrorText.setText(phoneNumberAddError);
+                genericErrorText.setVisible(true);
+            }
+            else if (phoneInputsCount < Contact.MAX_PHONES) {
                 phone[phoneInputsCount].setVisible(true);
                 phoneFields[phoneInputsCount].setVisible(true);
                 phoneInputsCount++;
+            }
+
+            if (phoneInputsCount >= Contact.MAX_PHONES) {
+                addPhoneLink.setVisible(false);
+            }
+        }
+    }
+
+    private class CancelButtonAction extends MouseClickListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            dispose();
+        }
+    }
+
+    private class AddContactButtonAction extends MouseClickListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (fnameField.getText().isEmpty() || phoneFields[0].getText().isEmpty()) {
+                genericErrorText.setVisible(false);
+                genericErrorText.setText(notEnoughInfo);
+                genericErrorText.setVisible(true);
+            }
+            else {
+                genericErrorText.setVisible(false);
+                String[] numbers = new String[Contact.MAX_PHONES];
+                for (int i = 0; i < Contact.MAX_PHONES; i++) {
+                    if (!phoneFields[i].getText().isEmpty())
+                        numbers[i] = phoneFields[i].getText();
+                }
+                contact = new Contact(fnameField.getText(), lnameField.getText(), numbers);
+                if (!FileHandler.saveContactFile(contact))
+                    new ContactSaveError();
+                else {
+                    FileHandler.readContactFile(10000);
+                    dispose();
+                }
             }
         }
     }

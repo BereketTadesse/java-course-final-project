@@ -27,7 +27,7 @@ public abstract class ErrorDialog extends JDialog {
         setTitle("Error");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocation(533, 250);
-        setUndecorated(true);
+        // setUndecorated(true);
         setVisible(true);
     }
 
@@ -95,4 +95,16 @@ class UserFileError extends ErrorDialog {
     String errorText = "Userfile missing.";
 
     UserFileError() { writeFailText(errorText); }
+}
+
+class ContactSaveError extends ErrorDialog {
+    String errorText = "Unable to save contact";
+
+    ContactSaveError() { writeFailText(errorText); }
+}
+
+class ContactReadError extends ErrorDialog {
+    String errorText = "Unable to read contact files";
+
+    ContactReadError() { writeFailText(errorText); }
 }
