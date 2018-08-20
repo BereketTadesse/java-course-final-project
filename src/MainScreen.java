@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+// TODO: Build dynamically updating list
+// TODO: Build contact details panel
+// TODO: Organize code
+// TODO: Address warnings
+
 public class MainScreen {
     private static JFrame frame = new JFrame("Contacts");
     private static Container contentPane = frame.getContentPane();
