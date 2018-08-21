@@ -20,7 +20,7 @@ public class NewContactDialog extends JDialog {
     private int phoneInputsCount = 1;
 
     private String notEnoughInfo = "Enter the full name and one phone number";
-    private String phoneNumberAddError = "Enter Phone #" + Integer.toString(phoneInputsCount) + " before entering Phone #" + Integer.toString(phoneInputsCount + 1);
+    private String phoneNumberAddError;
     private ColoredLabel genericErrorText = new ColoredLabel(notEnoughInfo, ErrorDialog.ERROR_TEXT_COLOR);
 
     private ColoredLink addPhoneLink = new ColoredLink("Add another phone number");
@@ -170,10 +170,12 @@ public class NewContactDialog extends JDialog {
         public void mouseClicked(MouseEvent e) {
             String prevPhoneFieldContent = phoneFields[phoneInputsCount - 1].getText();
             if (prevPhoneFieldContent.isEmpty() || prevPhoneFieldContent.equals("+")) {
+                phoneNumberAddError = "Enter Phone #" + Integer.toString(phoneInputsCount) + " before entering Phone #" + Integer.toString(phoneInputsCount + 1);
                 genericErrorText.setText(phoneNumberAddError);
                 genericErrorText.setVisible(true);
             }
             else if (phoneInputsCount < Contact.MAX_PHONES) {
+                genericErrorText.setVisible(false);
                 phone[phoneInputsCount].setVisible(true);
                 phoneFields[phoneInputsCount].setVisible(true);
                 phoneInputsCount++;
