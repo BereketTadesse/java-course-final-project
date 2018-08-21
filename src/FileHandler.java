@@ -11,6 +11,7 @@ public class FileHandler {
     private static String maxFile = contactDir + "/max.dat";
 
     public static boolean userFileExists() {
+        directoriesExist();
         try {
             File file = new File(fnameFile);
             return file.exists();
@@ -20,21 +21,17 @@ public class FileHandler {
         }
     }
 
-    public static boolean directoriesExist() {
+    public static void directoriesExist() {
         try {
             File userFolder = new File(mainFilesDir + "/userdata");
             File contactFolder = new File(mainFilesDir + "/contacts");
-            if (userFolder.exists() && contactFolder.exists())
-                return true;
-            else if (userFolder.mkdir() && contactFolder.mkdir())
-                return true;
-            else
-                return false;
-
+            if (!userFolder.exists())
+                userFolder.mkdir();
+            if (!contactFolder.exists())
+                contactFolder.mkdir();
         }
         catch (Exception e) {
             new UserFileError();
-            return false;
         }
     }
 
