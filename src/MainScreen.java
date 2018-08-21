@@ -3,8 +3,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 
 // TODO: Organize code
@@ -23,11 +22,8 @@ public class MainScreen {
 
     private static final String EMPTY_SPACE = "                ";
 
-    DarkMenuBar menuBar = new DarkMenuBar();
-    DarkMenu file = new DarkMenu("File");
-    DarkMenu edit = new DarkMenu("Edit");
-    DarkMenuItem addContact = new DarkMenuItem("Add contact" + EMPTY_SPACE);
-    DarkMenuItem exit = new DarkMenuItem("Exit" + EMPTY_SPACE);
+    JPanel addContactButtonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    DarkButton addContactBtn = new DarkButton("New contact", DarkButton.GREEN);
 
     User user = new User();
     static DarkList<String> contactsList;
@@ -42,25 +38,16 @@ public class MainScreen {
 
     MainScreen() {
         init();
-        file.add(addContact);
-        file.add(exit);
-        panel.setBackground(MAIN_PANEL_COLOR);
-        // panel.setBackground(DARKER_GRAY);
 
-        panel.setMinimumSize(new Dimension(frame.getWidth(), frame.getHeight()));
+        panel.setBackground(MAIN_PANEL_COLOR);
 
         titleContainer.setBackground(DARKER_GRAY);
         titleContainer.setLayout(new GridBagLayout());
         titleContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        // panel.add(new ContactDetailsPane(true));
-
         contentPane.add(panel, BorderLayout.CENTER);
         contentPane.add(titleContainer, BorderLayout.NORTH);
-
-        menuBar.add(file);
-        menuBar.add(edit);
-        frame.setJMenuBar(menuBar);
+        contentPane.add(addContactButtonContainer, BorderLayout.SOUTH);
 
         URL imgurl = getClass().getResource("files/images/icon(32x32_light).png");
         if (imgurl != null) {
@@ -73,11 +60,17 @@ public class MainScreen {
         frame.setVisible(true);
     }
 
-
     private void init() {
         initWelcomeMessage();
-        initMenuActionListeners();
+        initBottomBar();
         initContactList();
+    }
+
+    private void initBottomBar() {
+        addContactButtonContainer.setBackground(new Color(40, 40, 40));
+        addContactButtonContainer.setBorder(new EmptyBorder(10, 20, 10, 20));
+        addContactBtn.addMouseListener(new NewContactButtonAction());
+        addContactButtonContainer.add(addContactBtn);
     }
 
     private static void addListListener() {
@@ -90,6 +83,10 @@ public class MainScreen {
             return;
         }
         Contact.availableContacts = FileHandler.readMaxFile();
+        if (Contact.availableContacts == 0) {
+            panel.add(new ContactDetailsPane(false), BorderLayout.CENTER);
+            return;
+        }
         allContacts = FileHandler.readAllContacts();
         generateContactNames();
         generateContactList(false);
@@ -118,7 +115,6 @@ public class MainScreen {
         contentPane.setVisible(false);
         listScrollPane = new DarkScrollPane(contactsList);
         contactsList.ensureIndexIsVisible(contactsList.getSelectedIndex());
-        // contentPane.add(contactsList, BorderLayout.LINE_START);
         contentPane.add(listScrollPane, BorderLayout.WEST);
         contentPane.setVisible(true);
         addListListener();
@@ -178,14 +174,13 @@ public class MainScreen {
                 sortContactList();
                 position = getIndex(contact);
                 listModel.add(position, allContactNames[position]);
-            } else
+            }
+            else
                 initContactList();
         }
         else if (action == DELETE) {
-            // panel.removeAll();
             newContactsList = new Contact[allContacts.length - 1];
             position = getIndex(contact);
-            // System.out.println(listModel.get(0));
             for (int i = 0; i < allContacts.length; i++) {
                 if (i < position)
                     newContactsList[i] = allContacts[i];
@@ -197,17 +192,11 @@ public class MainScreen {
             contactsList.setSelectedIndex(position + 1);
             listModel.remove(position);
             allContacts = newContactsList;
-            System.out.println(allContacts[0].getFname());
             generateContactNames();
             sortContactList();
             Contact.availableContacts--;
             panel.removeAll();
         }
-    }
-
-    private void initMenuActionListeners() {
-        addContact.addActionListener(new MenuItemActions());
-        exit.addActionListener(new MenuItemActions());
     }
 
     private void initWelcomeMessage() {
@@ -220,24 +209,13 @@ public class MainScreen {
             return;
         }
         ColoredLabel welcomeText = new ColoredLabel("Hi, " + user.getFname() + "!");
-        // ColoredLabel welcomeText = new ColoredLabel(user.getFname() + "'s contacts");
         welcomeText.setBold(true);
         welcomeText.setFontSize(24);
+        welcomeText.setForeground(new Color(200, 200, 200));
         welcomeText.setBorder(new EmptyBorder(10, 13, 10, 0));
         titleContainer.add(welcomeText);
     }
 
-    class MenuItemActions implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String actionCommand = e.getActionCommand();
-            if (actionCommand.equals(addContact.getText())) {
-                new NewContactDialog();
-            }
-            else if (actionCommand.equals(exit.getText()))
-                frame.dispose();
-        }
-    }
 }
 
 class ListSelectionAction implements ListSelectionListener {
@@ -249,11 +227,18 @@ class ListSelectionAction implements ListSelectionListener {
             selection = MainScreen.contactsList.getSelectedIndex();
             MainScreen.panel.setVisible(false);
             MainScreen.panel.removeAll();
-            if (selection != previousSelection && selection < MainScreen.allContacts.length)
-                MainScreen.panel.add(new ContactDetailsPane(MainScreen.allContacts[selection]));
-            MainScreen.panel.setVisible(true);
 
+            if (selection != previousSelection && selection < MainScreen.allContacts.length)
+                MainScreen.panel.add(new ContactDetailsPane(MainScreen.allContacts[selection]), BorderLayout.CENTER);
+            MainScreen.panel.setVisible(true);
         }
      }
 
+}
+
+class NewContactButtonAction extends MouseClickListener {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        new NewContactDialog();
+    }
 }

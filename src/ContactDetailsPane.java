@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class ContactDetailsPane extends JPanel {
     private DarkButton deleteButton = new DarkButton("Delete", DarkButton.RED);
-    DarkButton newContact = new DarkButton("New Contact");
+    // DarkButton newContact = new DarkButton("New Contact");
     // public static Color MAIN_BORDER_COLOR = new Color(64, 64, 64);
 
     private JPanel noContactsContainer = new JPanel(new GridBagLayout());
@@ -22,10 +22,8 @@ public class ContactDetailsPane extends JPanel {
 
 
     ContactDetailsPane() {
-        // setBackground(new Color(52, 52, 52));
         setBackground(MainScreen.MAIN_PANEL_COLOR);
         setForeground(Color.LIGHT_GRAY);
-        // setBorder(new LineBorder(MainScreen.MAIN_PANEL_COLOR, 1));
         setBorder(new EmptyBorder(0, 20, 20, 20));
         setLayout(new BorderLayout());
     }
@@ -102,8 +100,6 @@ public class ContactDetailsPane extends JPanel {
     }
 
     private void initNoContactsPane() {
-        // ColoredLabel frown = new ColoredLabel(":( ", new Color(44, 44, 44));
-        // ColoredLabel nothingHere = new ColoredLabel("There seems to be nothing here", new Color(44, 44, 44));
         ColoredLabel frown = new ColoredLabel(":( ", new Color(72, 72, 72));
         ColoredLabel nothingHere = new ColoredLabel("There seems to be nothing here", new Color(72, 72, 72));
         frown.setBold(true);
@@ -120,15 +116,6 @@ public class ContactDetailsPane extends JPanel {
         noContactConstraints.insets.top = 20;
         noContactConstraints.gridy = 1;
         noContactsContainer.add(nothingHere, noContactConstraints);
-        noContactConstraints.insets.top = 50;
-        noContactConstraints.gridy = 2;
-        noContactsContainer.add(newContact, noContactConstraints);
-        newContact.addMouseListener(new MouseClickListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                new NewContactDialog();
-            }
-        });
         add(noContactsContainer);
     }
 
