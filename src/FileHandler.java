@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import static java.lang.Integer.valueOf;
 
 public class FileHandler {
+    private static String mainFilesDir = "src/files/main";
     private static String fnameFile = "src/files/main/userdata/fname.dat"; // For some reason, the file stream starts from a
     private static String lnameFile = "src/files/main/userdata/lname.dat"; // different directory to ImageIcon
     private static String contactDir = "src/files/main/contacts";
@@ -15,6 +16,24 @@ public class FileHandler {
             return file.exists();
         }
         catch (Exception exception) {
+            return false;
+        }
+    }
+
+    public static boolean directoriesExist() {
+        try {
+            File userFolder = new File(mainFilesDir + "/userdata");
+            File contactFolder = new File(mainFilesDir + "/contacts");
+            if (userFolder.exists() && contactFolder.exists())
+                return true;
+            else if (userFolder.mkdir() && contactFolder.mkdir())
+                return true;
+            else
+                return false;
+
+        }
+        catch (Exception e) {
+            new UserFileError();
             return false;
         }
     }

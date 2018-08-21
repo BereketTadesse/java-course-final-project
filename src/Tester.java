@@ -1,4 +1,5 @@
 public class Tester {
+    /*
     private static User user = new User();
 
     public static void main(String [] args) {
@@ -29,4 +30,5 @@ public class Tester {
     static void view() {
         System.out.println(user.getFname() + " " + user.getLname());
     }
+    */
 }
