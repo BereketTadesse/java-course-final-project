@@ -114,7 +114,7 @@ public class FileHandler {
             ObjectInputStream maxFileObjInStream = new ObjectInputStream(maxFileInStream);
             availableContactsWrapper = (Integer) maxFileObjInStream.readObject();
             availableContacts = availableContactsWrapper.intValue();
-            System.out.println(availableContacts);
+            // System.out.println(availableContacts);
         }
         catch (IOException exception) {
             exception.printStackTrace();
@@ -139,7 +139,7 @@ public class FileHandler {
     public static Contact[] readAllContacts() {
         int numberOfContacts;
         numberOfContacts = FileHandler.readMaxFile();
-        System.out.println(numberOfContacts);
+        // System.out.println(numberOfContacts);
         Contact[] allContacts = new Contact[numberOfContacts];
         for (int i = 0; i < numberOfContacts; i++) {
             allContacts[i] = readContactFile(Contact.getInitialContactID() + i);

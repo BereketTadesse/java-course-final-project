@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,8 @@ public class MainScreen {
     private static Container contentPane = frame.getContentPane();
 
     public static final Color DARKER_GRAY = new Color(48, 48, 48);
-    private static final Color MAIN_PANEL_COLOR = new Color(56, 56, 56);
+    public static final Color MAIN_PANEL_COLOR = new Color(56, 56, 56);
+    public static final Color LINK_COLOR = new Color(49, 115, 175);
 
     // private JPanel titlePanel = new JPanel(new GridBagLayout());
     private JPanel titleContainer = new JPanel();
@@ -30,7 +32,6 @@ public class MainScreen {
     DarkMenuItem exit = new DarkMenuItem("Exit" + EMPTY_SPACE);
     // DarkMenuItem contact = new DarkMenuItem("Contact" + EMPTY_SPACE);
 
-    public static Color LINK_COLOR = new Color(49, 115, 175);
 
     User user = new User();
     private static DarkList<String> contactsList;
@@ -45,11 +46,14 @@ public class MainScreen {
         init();
         file.add(addContact);
         file.add(exit);
-        panel.setBackground(MAIN_PANEL_COLOR);
+        // panel.setBackground(MAIN_PANEL_COLOR);
+        panel.setBackground(DARKER_GRAY);
+
         panel.setMinimumSize(new Dimension(frame.getWidth(), frame.getHeight()));
 
         titleContainer.setBackground(DARKER_GRAY);
-        titleContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
+        titleContainer.setLayout(new GridBagLayout());
+        titleContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         contentPane.add(panel, BorderLayout.CENTER);
         contentPane.add(titleContainer, BorderLayout.NORTH);
@@ -73,6 +77,10 @@ public class MainScreen {
         initWelcomeMessage();
         initMenuActionListeners();
         initContactList();
+        initListAttributes();
+    }
+
+    private static void initListAttributes() {
     }
 
     private static void initContactList() {
@@ -93,7 +101,7 @@ public class MainScreen {
             allContactNames[i] = allContacts[i].getFname();
             if (!allContacts[i].getLname().isEmpty())
                 allContactNames[i] += " " + allContacts[i].getLname();
-            System.out.println(allContactNames[i]);
+            // System.out.println(allContactNames[i]);
         }
     }
 
@@ -153,8 +161,22 @@ public class MainScreen {
     }
 */
 
+    private static int getIndex(Contact newContact) {
+        int position = 0;
+        for (int i = 0; i < allContactNames.length; i++) {
+            if (allContactNames[i].equals(newContact.getFname() + " " + newContact.getLname())) {
+                // System.out.println(allContacts[i].getFname() + " " + allContacts[i].getId() + " " + allContacts[]);
+                position = i;
+                break;
+            }
+        }
+        System.out.println(position);
+        return position;
+    }
+
     public static void updateContactList(Contact newContact) {
         Contact[] newContactsList;
+        int position;
         if (Contact.getAvailableContacts() > 1) {
             newContactsList = new Contact[allContacts.length + 1];
             for (int i = 0; i < allContacts.length; i++)
@@ -162,7 +184,10 @@ public class MainScreen {
             newContactsList[newContactsList.length - 1] = newContact;
             allContacts = newContactsList;
             generateContactNames();
-            generateContactList(true);
+            sortContactList();
+            position = getIndex(newContact);
+            listModel.add(position, allContactNames[position]);
+            // generateContactList(true);
         }
         else
             initContactList();
@@ -192,20 +217,15 @@ public class MainScreen {
         }
         // ColoredLabel welcomeText = new ColoredLabel("Hi, " + user.getFname() + "!");
         ColoredLabel welcomeText = new ColoredLabel(user.getFname() + "'s contacts");
-        welcomeText.setFontSize(20);
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.insets = new Insets(20, 20, 20, 20);
-        constraints.anchor = GridBagConstraints.WEST;
-        titleContainer.add(welcomeText, constraints);
-    }
-
-    private void addElements() {
-        constraints.gridy = 1;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 10;
-        constraints.anchor = GridBagConstraints.WEST;
-
+        welcomeText.setBold(true);
+        welcomeText.setFontSize(24);
+        welcomeText.setBorder(new EmptyBorder(20, 13, 0, 0));
+        // constraints.gridx = 0;
+        // constraints.gridy = 0;
+        // constraints.insets = new Insets(50, 20, 50, 20);
+        // constraints.anchor = GridBagConstraints.WEST;
+        // titleContainer.add(welcomeText, constraints);
+        titleContainer.add(welcomeText);
     }
 
     class MenuItemActions implements ActionListener {

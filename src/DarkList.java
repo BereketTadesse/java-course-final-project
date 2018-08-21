@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class DarkList <E> extends JList { // Uses a generic type so as not to lose any JList functionality
     // private static final Color FONT_COLOR = new Color(200, 200, 200);
-    private static final Color DEFAULT_COLOR = new Color(80, 80,80);
+    private static final Color DEFAULT_COLOR = new Color(160, 160,160);
     private static final Color DEFAULT_SELECTION_COLOR = new Color(96, 96, 96);
 
     DarkList() {
@@ -18,13 +18,14 @@ public class DarkList <E> extends JList { // Uses a generic type so as not to lo
 
     private void init() {
         setBackground(MainScreen.DARKER_GRAY);
-        setForeground(Color.LIGHT_GRAY);
+        setForeground(DEFAULT_COLOR);
+        setSelectionBackground(Color.DARK_GRAY);
+        setSelectionForeground(Color.LIGHT_GRAY);
+        UIManager.put("List.focusCellHighlightBorder", new EmptyBorder(0, 0, 0, 0));
         setFont(new Font("Sans Serif", Font.PLAIN, 14));
         // setSize(getParent().getWidth()/4, getParent().getHeight());
-        UIManager.put("List.selectionBackground", Color.DARK_GRAY);
-        UIManager.put("List.selectionForeground", Color.LIGHT_GRAY);
         setFixedCellWidth(200);
-        setFixedCellHeight(20);
-        setBorder(new EmptyBorder(10, 10, 10, 10));
+        setFixedCellHeight(23);
+        setBorder(new EmptyBorder(20, 20, 20, 10));
     }
 }
