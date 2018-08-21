@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
-// TODO: Build dynamically updating list
-// TODO: Build contact details panel
 // TODO: Organize code
 // TODO: Address warnings
 
@@ -20,10 +18,8 @@ public class MainScreen {
     public static final Color MAIN_PANEL_COLOR = new Color(56, 56, 56);
     public static final Color LINK_COLOR = new Color(49, 115, 175);
 
-    // private JPanel titlePanel = new JPanel(new GridBagLayout());
     private static JPanel titleContainer = new JPanel();
     static JPanel panel = new JPanel(new BorderLayout());;
-    // private GridBagConstraints constraints = new GridBagConstraints();
 
     private static final String EMPTY_SPACE = "                ";
 
@@ -32,15 +28,12 @@ public class MainScreen {
     DarkMenu edit = new DarkMenu("Edit");
     DarkMenuItem addContact = new DarkMenuItem("Add contact" + EMPTY_SPACE);
     DarkMenuItem exit = new DarkMenuItem("Exit" + EMPTY_SPACE);
-    // DarkMenuItem contact = new DarkMenuItem("Contact" + EMPTY_SPACE);
-
 
     User user = new User();
     static DarkList<String> contactsList;
     private static DarkScrollPane listScrollPane;
     public static Contact[] allContacts;
     static String[] allContactNames;
-    // private static ListModel listModel;
     private static DefaultListModel listModel = new DefaultListModel();
 
     public static final int DELETE = 0;
