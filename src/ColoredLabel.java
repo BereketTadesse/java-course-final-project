@@ -53,8 +53,7 @@ class ColoredLink extends ColoredLabel {
 
     private class LinkHoverListener implements MouseListener {
         @Override
-        public void mouseClicked(MouseEvent e) {
-        }
+        public void mouseClicked(MouseEvent e) { }
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -67,13 +66,9 @@ class ColoredLink extends ColoredLabel {
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
+        public void mousePressed(MouseEvent e) { }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
+        public void mouseReleased(MouseEvent e) { }
     }
 }
