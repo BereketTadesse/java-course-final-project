@@ -33,9 +33,10 @@ public class MainScreen {
     public static Color LINK_COLOR = new Color(49, 115, 175);
 
     User user = new User();
-    private static DarkList contactsList;
+    private static DarkList<String> contactsList;
     public static Contact[] allContacts;
     private static String[] allContactNames;
+    // private static ListModel listModel;
     private static DefaultListModel listModel = new DefaultListModel();
 
 
@@ -48,7 +49,7 @@ public class MainScreen {
         panel.setMinimumSize(new Dimension(frame.getWidth(), frame.getHeight()));
 
         titleContainer.setBackground(DARKER_GRAY);
-        titleContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
+        titleContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         contentPane.add(panel, BorderLayout.CENTER);
         contentPane.add(titleContainer, BorderLayout.NORTH);
@@ -75,14 +76,15 @@ public class MainScreen {
     }
 
     private static void initContactList() {
+        String[] emptyArray = {" "};
         if (!FileHandler.maxFileExists()) {
-            contactsList = new DarkList();
+            contactsList = new DarkList<>(emptyArray);
             return;
         }
         Contact.availableContacts = FileHandler.readMaxFile();
         allContacts = FileHandler.readAllContacts();
         generateContactNames();
-        generateContactList();
+        generateContactList(false);
     }
 
     private static void generateContactNames() {
@@ -95,10 +97,18 @@ public class MainScreen {
         }
     }
 
-    private static void generateContactList() {
-        for (int i = 0; i < allContactNames.length; i++)
-            listModel.addElement(allContactNames[i]);
-        contactsList = new DarkList<>(allContactNames);
+    private static void generateContactList(boolean isUpdate) {
+        if (isUpdate)
+            listModel.addElement(allContactNames[allContactNames.length - 1]);
+        else {
+            // listModel = new ListModel(allContactNames);
+            listModel = new DefaultListModel();
+            sortContactList();
+            for (int i = 0; i < allContactNames.length; i++)
+                listModel.addElement(allContactNames[i]);
+        }
+        // sortContactList();
+        contactsList = new DarkList<>();
         contactsList.setModel(listModel);
         contentPane.setVisible(false);
         contentPane.add(contactsList, BorderLayout.LINE_START);
@@ -117,10 +127,20 @@ public class MainScreen {
         contactsList = new DarkList<>(allContactNames);
     }
     */
-    /*
-    private void sortContactList() {
-        for (int i = 0; i < allContactNames.length; i++)
+
+    private static void sortContactList() {
+        String temp;
+        for (int i = 0; i < allContactNames.length; i++) {
+            for (int j = i + 1; j < allContactNames.length; j++) {
+                if (allContactNames[i].compareTo(allContactNames[j]) > 0) {
+                    temp = allContactNames[i];
+                    allContactNames[i] = allContactNames[j];
+                    allContactNames[j] = temp;
+                }
+            }
+        }
     }
+    /*
     public static void updateContactList(Contact newContact) {
         Contact[] newContactsList = new Contact[allContacts.length + 1];
         for (int i = 0; i < allContacts.length; i++)
@@ -142,11 +162,20 @@ public class MainScreen {
             newContactsList[newContactsList.length - 1] = newContact;
             allContacts = newContactsList;
             generateContactNames();
+            generateContactList(true);
         }
         else
             initContactList();
     }
-
+    /*
+    public static void updateContactList() {
+        if (FileHandler.maxFileExists()) {
+            allContacts = FileHandler.readAllContacts();
+            generateContactNames();
+            generateContactList();
+        }
+    }
+*/
     private void initMenuActionListeners() {
         addContact.addActionListener(new MenuItemActions());
         exit.addActionListener(new MenuItemActions());
