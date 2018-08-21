@@ -20,7 +20,7 @@ public class MainScreen {
 
     // private JPanel titlePanel = new JPanel(new GridBagLayout());
     private JPanel titleContainer = new JPanel();
-    private JPanel panel = new JPanel(new GridBagLayout());
+    private JPanel panel = new ContactDetailsPane();
     private GridBagConstraints constraints = new GridBagConstraints();
 
     private static final String EMPTY_SPACE = "                ";
@@ -35,6 +35,7 @@ public class MainScreen {
 
     User user = new User();
     private static DarkList<String> contactsList;
+    private static DarkScrollPane listScrollPane;
     public static Contact[] allContacts;
     private static String[] allContactNames;
     // private static ListModel listModel;
@@ -45,14 +46,16 @@ public class MainScreen {
         init();
         file.add(addContact);
         file.add(exit);
-        // panel.setBackground(MAIN_PANEL_COLOR);
-        panel.setBackground(DARKER_GRAY);
+        panel.setBackground(MAIN_PANEL_COLOR);
+        // panel.setBackground(DARKER_GRAY);
 
         panel.setMinimumSize(new Dimension(frame.getWidth(), frame.getHeight()));
 
         titleContainer.setBackground(DARKER_GRAY);
         titleContainer.setLayout(new GridBagLayout());
         titleContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        panel.add(new ContactDetailsPane());
 
         contentPane.add(panel, BorderLayout.CENTER);
         contentPane.add(titleContainer, BorderLayout.NORTH);
@@ -85,7 +88,7 @@ public class MainScreen {
     private static void initContactList() {
         String[] emptyArray = {" "};
         if (!FileHandler.maxFileExists()) {
-            contactsList = new DarkList<>(emptyArray);
+            // contactsList = new DarkList<>(emptyArray);
             return;
         }
         Contact.availableContacts = FileHandler.readMaxFile();
@@ -115,7 +118,10 @@ public class MainScreen {
         contactsList = new DarkList<>();
         contactsList.setModel(listModel);
         contentPane.setVisible(false);
-        contentPane.add(contactsList, BorderLayout.LINE_START);
+        listScrollPane = new DarkScrollPane(contactsList);
+        contactsList.ensureIndexIsVisible(contactsList.getSelectedIndex());
+        // contentPane.add(contactsList, BorderLayout.LINE_START);
+        contentPane.add(listScrollPane, BorderLayout.WEST);
         contentPane.setVisible(true);
     }
 
@@ -180,7 +186,7 @@ public class MainScreen {
         ColoredLabel welcomeText = new ColoredLabel(user.getFname() + "'s contacts");
         welcomeText.setBold(true);
         welcomeText.setFontSize(24);
-        welcomeText.setBorder(new EmptyBorder(20, 13, 0, 0));
+        welcomeText.setBorder(new EmptyBorder(10, 13, 10, 0));
         titleContainer.add(welcomeText);
     }
 

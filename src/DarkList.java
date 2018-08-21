@@ -26,6 +26,5 @@ public class DarkList <E> extends JList { // Uses a generic type so as not to lo
         // setSize(getParent().getWidth()/4, getParent().getHeight());
         setFixedCellWidth(200);
         setFixedCellHeight(23);
-        setBorder(new EmptyBorder(20, 20, 20, 10));
     }
 }
