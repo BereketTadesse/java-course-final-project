@@ -17,7 +17,7 @@ public class ContactDetailsPane extends JPanel {
     private GridBagConstraints contactDetailConstraints = new GridBagConstraints();
 
     private ColoredLabel name;
-    private ColoredLabel id;
+    public static ColoredLabel id;
     private ColoredLabel[] phoneNumbers;
 
 
@@ -135,12 +135,7 @@ public class ContactDetailsPane extends JPanel {
     class DeleteAction extends MouseClickListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            String deleteIdString = id.getText().substring(1);
-            int deleteId = Integer.parseInt(deleteIdString);
-            for (int i = 0; i < MainScreen.allContacts.length; i++)
-                if (MainScreen.allContacts[i].getId() == deleteId)
-                    MainScreen.updateContactList(MainScreen.allContacts[i], MainScreen.DELETE);
-            FileHandler.deleteContactFile(deleteId);
+            new DeleteWarningPanel();
         }
     }
 }

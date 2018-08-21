@@ -27,7 +27,6 @@ public abstract class ErrorDialog extends JDialog {
         setTitle("Error");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocation(533, 250);
-        // setUndecorated(true);
         setVisible(true);
     }
 

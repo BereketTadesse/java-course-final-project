@@ -75,7 +75,7 @@ public class MainScreen {
             frame.setIconImage(icon.getImage());
         }
         frame.setSize(720, 720);
-        frame.setLocation(43, 24);
+        frame.setLocation(323, 24);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

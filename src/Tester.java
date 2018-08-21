@@ -3,6 +3,8 @@ public class Tester {
 
     public static void main(String [] args) {
         // new ResolutionPane();
+        // new DeleteWarningPanel();
+
         if (!FileHandler.userFileExists())
             new WelcomePane();
         else {
