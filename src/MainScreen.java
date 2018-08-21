@@ -128,6 +128,7 @@ public class MainScreen {
         contentPane.setVisible(true);
         addListListener();
         panel.removeAll();
+        panel.add(new ContactDetailsPane(allContacts[0]));
     }
 
     private static void sortContactList() {
