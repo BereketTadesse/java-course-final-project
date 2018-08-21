@@ -16,7 +16,7 @@ public class DarkMenuBar extends JMenuBar {
 
     private void adjustColors() {
         // setBackground(DarkButton.DEFAULT_COLOR);
-        setBackground(Color.DARK_GRAY);
+        setBackground(MainScreen.DARKER_GRAY);
         setBorderPainted(false);
         // UIManager.put("Menu.selectionBackground", Color.LIGHT_GRAY);
         setFont(DEFAULT_FONT);

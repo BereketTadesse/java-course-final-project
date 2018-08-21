@@ -19,7 +19,7 @@ public class DarkList <E> extends JList { // Uses a generic type so as not to lo
     private void init() {
         setBackground(MainScreen.DARKER_GRAY);
         setForeground(DEFAULT_COLOR);
-        setSelectionBackground(Color.DARK_GRAY);
+        setSelectionBackground(MainScreen.MAIN_PANEL_COLOR);
         setSelectionForeground(Color.LIGHT_GRAY);
         UIManager.put("List.focusCellHighlightBorder", new EmptyBorder(0, 0, 0, 0));
         setFont(new Font("Sans Serif", Font.PLAIN, 14));

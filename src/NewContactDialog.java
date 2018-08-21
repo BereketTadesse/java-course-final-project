@@ -19,7 +19,7 @@ public class NewContactDialog extends JDialog {
 
     private int phoneInputsCount = 1;
 
-    private String notEnoughInfo = "Enter a first name and one phone number";
+    private String notEnoughInfo = "Enter the full name and one phone number";
     private String phoneNumberAddError = "Enter Phone #" + Integer.toString(phoneInputsCount) + " before entering Phone #" + Integer.toString(phoneInputsCount + 1);
     private ColoredLabel genericErrorText = new ColoredLabel(notEnoughInfo, ErrorDialog.ERROR_TEXT_COLOR);
 
@@ -196,9 +196,11 @@ public class NewContactDialog extends JDialog {
         @Override
         public void mouseClicked(MouseEvent e) {
             String fnameFieldContent = fnameField.getText();
+            String lnameFieldContent = lnameField.getText();
             String phoneFieldContent = phoneFields[0].getText();
 
-            if (fnameFieldContent.isEmpty() || phoneFieldContent.isEmpty() || phoneFieldContent.equals("+")) {
+            if (fnameFieldContent.isEmpty() || lnameFieldContent.isEmpty() ||
+                    phoneFieldContent.isEmpty() || phoneFieldContent.equals("+")) {
                 genericErrorText.setVisible(false);
                 genericErrorText.setText(notEnoughInfo);
                 genericErrorText.setVisible(true);
@@ -206,11 +208,19 @@ public class NewContactDialog extends JDialog {
             else {
                 genericErrorText.setVisible(false);
                 String[] numbers = new String[Contact.MAX_PHONES];
+                int actualElements = 0;
 
                 for (int i = 0; i < Contact.MAX_PHONES; i++) {
-                    if (!phoneFields[i].getText().isEmpty())
+                    if (!phoneFields[i].getText().isEmpty() && !phoneFields[i].getText().equals("+")) {
                         numbers[i] = phoneFields[i].getText();
+                        actualElements++;
+                    }
                 }
+
+                String[] temp = new String[actualElements];
+                for (int i = 0; i < actualElements; i++)
+                    temp[i] = numbers[i];
+                numbers = temp;
 
                 contact = new Contact(fnameField.getText(), lnameField.getText(), numbers);
 

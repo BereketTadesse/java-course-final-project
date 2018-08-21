@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +22,7 @@ public class MainScreen {
 
     // private JPanel titlePanel = new JPanel(new GridBagLayout());
     private static JPanel titleContainer = new JPanel();
-    private static JPanel panel;
+    static JPanel panel = new JPanel(new BorderLayout());;
     // private GridBagConstraints constraints = new GridBagConstraints();
 
     private static final String EMPTY_SPACE = "                ";
@@ -34,10 +36,10 @@ public class MainScreen {
 
 
     User user = new User();
-    private static DarkList<String> contactsList;
+    static DarkList<String> contactsList;
     private static DarkScrollPane listScrollPane;
     public static Contact[] allContacts;
-    private static String[] allContactNames;
+    static String[] allContactNames;
     // private static ListModel listModel;
     private static DefaultListModel listModel = new DefaultListModel();
 
@@ -55,7 +57,7 @@ public class MainScreen {
         titleContainer.setLayout(new GridBagLayout());
         titleContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        panel.add(new ContactDetailsPane(true));
+        // panel.add(new ContactDetailsPane(true));
 
         contentPane.add(panel, BorderLayout.CENTER);
         contentPane.add(titleContainer, BorderLayout.NORTH);
@@ -69,11 +71,12 @@ public class MainScreen {
             ImageIcon icon = new ImageIcon(imgurl);
             frame.setIconImage(icon.getImage());
         }
-        frame.setSize(1280, 720);
+        frame.setSize(720, 720);
         frame.setLocation(43, 24);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
 
     private void init() {
         initWelcomeMessage();
@@ -81,16 +84,16 @@ public class MainScreen {
         initContactList();
     }
 
+    private static void addListListener() {
+        contactsList.addListSelectionListener(new ListSelectionAction());
+    }
+
     private static void initContactList() {
-        // String[] emptyArray = {" "};
         if (!FileHandler.maxFileExists()) {
-            panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            panel.add(new ContactDetailsPane(false));
+            panel.add(new ContactDetailsPane(false), BorderLayout.CENTER);
             // contactsList = new DarkList<>(emptyArray);
             return;
         }
-        panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panel.add(new ContactDetailsPane(true));
         Contact.availableContacts = FileHandler.readMaxFile();
         allContacts = FileHandler.readAllContacts();
         generateContactNames();
@@ -123,16 +126,31 @@ public class MainScreen {
         // contentPane.add(contactsList, BorderLayout.LINE_START);
         contentPane.add(listScrollPane, BorderLayout.WEST);
         contentPane.setVisible(true);
+        addListListener();
+        panel.removeAll();
     }
 
     private static void sortContactList() {
         String temp;
+        String currentContactName, nextContactName;
+        Contact tempContact;
         for (int i = 0; i < allContactNames.length; i++) {
             for (int j = i + 1; j < allContactNames.length; j++) {
                 if (allContactNames[i].compareTo(allContactNames[j]) > 0) {
                     temp = allContactNames[i];
                     allContactNames[i] = allContactNames[j];
                     allContactNames[j] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < allContacts.length; i++) {
+            for (int j = i + 1; j < allContacts.length; j++) {
+                currentContactName = allContacts[i].getFname() + " " + allContacts[i].getLname();
+                nextContactName = allContacts[j].getFname() + " " + allContacts[j].getLname();
+                if (currentContactName.compareTo(nextContactName) > 0) {
+                    tempContact = allContacts[i];
+                    allContacts[i] = allContacts[j];
+                    allContacts[j] = tempContact;
                 }
             }
         }
@@ -182,8 +200,8 @@ public class MainScreen {
             new WelcomePane();
             return;
         }
-        // ColoredLabel welcomeText = new ColoredLabel("Hi, " + user.getFname() + "!");
-        ColoredLabel welcomeText = new ColoredLabel(user.getFname() + "'s contacts");
+        ColoredLabel welcomeText = new ColoredLabel("Hi, " + user.getFname() + "!");
+        // ColoredLabel welcomeText = new ColoredLabel(user.getFname() + "'s contacts");
         welcomeText.setBold(true);
         welcomeText.setFontSize(24);
         welcomeText.setBorder(new EmptyBorder(10, 13, 10, 0));
@@ -201,4 +219,20 @@ public class MainScreen {
                 frame.dispose();
         }
     }
+}
+
+class ListSelectionAction implements ListSelectionListener {
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        int selection;
+        if (!e.getValueIsAdjusting()) {
+            selection = MainScreen.contactsList.getSelectedIndex();
+            MainScreen.panel.setVisible(false);
+            MainScreen.panel.removeAll();
+            MainScreen.panel.add(new ContactDetailsPane(MainScreen.allContacts[selection]));
+            MainScreen.panel.setVisible(true);
+
+        }
+     }
+
 }
