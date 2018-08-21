@@ -56,6 +56,7 @@ public class ContactDetailsPane extends JPanel {
         name.setBold(true);
         optionsPanel.add(id);
         id.setBorder(new EmptyBorder(0, 0, 0, 20));
+        deleteButton.addMouseListener(new DeleteAction());
         optionsPanel.add(deleteButton);
         optionsPanel.setBorder(new EmptyBorder(10, 20, 20, -10));
     }
@@ -129,5 +130,17 @@ public class ContactDetailsPane extends JPanel {
             }
         });
         add(noContactsContainer);
+    }
+
+    class DeleteAction extends MouseClickListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            String deleteIdString = id.getText().substring(1);
+            int deleteId = Integer.parseInt(deleteIdString);
+            for (int i = 0; i < MainScreen.allContacts.length; i++)
+                if (MainScreen.allContacts[i].getId() == deleteId)
+                    MainScreen.updateContactList(MainScreen.allContacts[i], MainScreen.DELETE);
+            FileHandler.deleteContactFile(deleteId);
+        }
     }
 }

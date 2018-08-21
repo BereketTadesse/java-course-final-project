@@ -79,14 +79,33 @@ public class FileHandler {
 
     public static Contact readContactFile(int id) {
         try (InputStream contactInStream = new FileInputStream(generateContactFileName(id))) {
-            ObjectInputStream objStream = new ObjectInputStream(contactInStream);
-            // Contact contact;
-            return (Contact) objStream.readObject();
+            File cfile = new File(generateContactFileName(id));
+            if (cfile.exists()) {
+                ObjectInputStream objStream = new ObjectInputStream(contactInStream);
+                // Contact contact;
+                return (Contact) objStream.readObject();
+            }
+            else
+                return null;
+        }
+        catch (Exception exception) {
+            // exception.printStackTrace();
+            // new ContactReadError();
+            return null;
+        }
+    }
+
+    public static void deleteContactFile(int id) {
+        try  {
+            File cfile = new File(generateContactFileName(id));
+            if (cfile.exists()) {
+                if (cfile.delete())
+                    saveMaxFile(Contact.availableContacts);
+            }
         }
         catch (Exception exception) {
             exception.printStackTrace();
             new ContactReadError();
-            return null;
         }
     }
 
@@ -138,11 +157,16 @@ public class FileHandler {
 
     public static Contact[] readAllContacts() {
         int numberOfContacts;
+        int index = 0;
+        File contact;
         numberOfContacts = FileHandler.readMaxFile();
         // System.out.println(numberOfContacts);
         Contact[] allContacts = new Contact[numberOfContacts];
         for (int i = 0; i < numberOfContacts; i++) {
-            allContacts[i] = readContactFile(Contact.getInitialContactID() + i);
+            allContacts[i] = readContactFile(Contact.getInitialContactID() + index);
+            if (allContacts[i] == null)
+                i--;
+            index++;
         }
         return allContacts;
     }

@@ -229,7 +229,7 @@ public class NewContactDialog extends JDialog {
                 if (!FileHandler.saveContactFile(contact))
                     new ContactSaveError();
                 else {
-                    MainScreen.updateContactList(contact);
+                    MainScreen.updateContactList(contact, MainScreen.ADD);
                     // FileHandler.readContactFile(10000);
                     dispose();
                 }

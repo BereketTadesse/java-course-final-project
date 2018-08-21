@@ -43,6 +43,9 @@ public class MainScreen {
     // private static ListModel listModel;
     private static DefaultListModel listModel = new DefaultListModel();
 
+    public static final int DELETE = 0;
+    public static final int ADD = 1;
+
 
     MainScreen() {
         init();
@@ -91,7 +94,6 @@ public class MainScreen {
     private static void initContactList() {
         if (!FileHandler.maxFileExists()) {
             panel.add(new ContactDetailsPane(false), BorderLayout.CENTER);
-            // contactsList = new DarkList<>(emptyArray);
             return;
         }
         Contact.availableContacts = FileHandler.readMaxFile();
@@ -169,22 +171,45 @@ public class MainScreen {
         return position;
     }
 
-    public static void updateContactList(Contact newContact) {
+    public static void updateContactList(Contact contact, int action) {
         Contact[] newContactsList;
         int position;
-        if (Contact.getAvailableContacts() > 1) {
-            newContactsList = new Contact[allContacts.length + 1];
-            for (int i = 0; i < allContacts.length; i++)
-                newContactsList[i] = allContacts[i];
-            newContactsList[newContactsList.length - 1] = newContact;
+        if (action == ADD) {
+            if (Contact.getAvailableContacts() > 1) {
+                newContactsList = new Contact[allContacts.length + 1];
+                for (int i = 0; i < allContacts.length; i++)
+                    newContactsList[i] = allContacts[i];
+                newContactsList[newContactsList.length - 1] = contact;
+                allContacts = newContactsList;
+                generateContactNames();
+                sortContactList();
+                position = getIndex(contact);
+                listModel.add(position, allContactNames[position]);
+            } else
+                initContactList();
+        }
+        else if (action == DELETE) {
+            // panel.removeAll();
+            newContactsList = new Contact[allContacts.length - 1];
+            position = getIndex(contact);
+            // System.out.println(listModel.get(0));
+            for (int i = 0; i < allContacts.length; i++) {
+                if (i < position)
+                    newContactsList[i] = allContacts[i];
+                else if (i == position)
+                    continue;
+                else
+                    newContactsList[i - 1] = allContacts[i];
+            }
+            contactsList.setSelectedIndex(position + 1);
+            listModel.remove(position);
             allContacts = newContactsList;
+            System.out.println(allContacts[0].getFname());
             generateContactNames();
             sortContactList();
-            position = getIndex(newContact);
-            listModel.add(position, allContactNames[position]);
+            Contact.availableContacts--;
+            panel.removeAll();
         }
-        else
-            initContactList();
     }
 
     private void initMenuActionListeners() {
@@ -223,14 +248,16 @@ public class MainScreen {
 }
 
 class ListSelectionAction implements ListSelectionListener {
+    int selection;
+    static int previousSelection = -1;
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        int selection;
         if (!e.getValueIsAdjusting()) {
             selection = MainScreen.contactsList.getSelectedIndex();
             MainScreen.panel.setVisible(false);
             MainScreen.panel.removeAll();
-            MainScreen.panel.add(new ContactDetailsPane(MainScreen.allContacts[selection]));
+            if (selection != previousSelection && selection < MainScreen.allContacts.length)
+                MainScreen.panel.add(new ContactDetailsPane(MainScreen.allContacts[selection]));
             MainScreen.panel.setVisible(true);
 
         }
