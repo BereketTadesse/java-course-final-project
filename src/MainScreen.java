@@ -19,9 +19,9 @@ public class MainScreen {
     public static final Color LINK_COLOR = new Color(49, 115, 175);
 
     // private JPanel titlePanel = new JPanel(new GridBagLayout());
-    private JPanel titleContainer = new JPanel();
-    private JPanel panel = new ContactDetailsPane();
-    private GridBagConstraints constraints = new GridBagConstraints();
+    private static JPanel titleContainer = new JPanel();
+    private static JPanel panel;
+    // private GridBagConstraints constraints = new GridBagConstraints();
 
     private static final String EMPTY_SPACE = "                ";
 
@@ -55,7 +55,7 @@ public class MainScreen {
         titleContainer.setLayout(new GridBagLayout());
         titleContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        panel.add(new ContactDetailsPane());
+        panel.add(new ContactDetailsPane(true));
 
         contentPane.add(panel, BorderLayout.CENTER);
         contentPane.add(titleContainer, BorderLayout.NORTH);
@@ -79,18 +79,18 @@ public class MainScreen {
         initWelcomeMessage();
         initMenuActionListeners();
         initContactList();
-        initListAttributes();
-    }
-
-    private static void initListAttributes() {
     }
 
     private static void initContactList() {
-        String[] emptyArray = {" "};
+        // String[] emptyArray = {" "};
         if (!FileHandler.maxFileExists()) {
+            panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            panel.add(new ContactDetailsPane(false));
             // contactsList = new DarkList<>(emptyArray);
             return;
         }
+        panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.add(new ContactDetailsPane(true));
         Contact.availableContacts = FileHandler.readMaxFile();
         allContacts = FileHandler.readAllContacts();
         generateContactNames();
