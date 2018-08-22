@@ -223,7 +223,8 @@ public class NewContactDialog extends JDialog {
                 for (int i = 0; i < actualElements; i++)
                     temp[i] = numbers[i];
                 numbers = temp;
-
+                if (FileHandler.lifetimeFileExists())
+                    FileHandler.readLifetimeFile();
                 contact = new Contact(fnameField.getText(), lnameField.getText(), numbers);
 
                 if (!FileHandler.saveContactFile(contact))

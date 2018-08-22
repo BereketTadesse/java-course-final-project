@@ -6,7 +6,7 @@ class Contact implements Serializable {
     private String lname;
     private String[] phoneNumbers;
     private static int initialContactID = 10000;
-    private static int lifeTimeContacts = 0;
+    static int lifeTimeContacts = 0;
     static int availableContacts = 0;
 
     static final int MAX_PHONES = 5;
@@ -22,6 +22,10 @@ class Contact implements Serializable {
 
     static int getAvailableContacts() {
         return availableContacts;
+    }
+
+    static int getLifeTimeContacts() {
+        return lifeTimeContacts;
     }
 
     int getId() {

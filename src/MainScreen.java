@@ -26,7 +26,7 @@ public class MainScreen {
     DarkButton addContactBtn = new DarkButton("New contact", DarkButton.GREEN);
 
     User user = new User();
-    static DarkList<String> contactsList;
+    static DarkList contactsList;
     private static DarkScrollPane listScrollPane;
     public static Contact[] allContacts;
     static String[] allContactNames;
@@ -110,7 +110,7 @@ public class MainScreen {
             for (int i = 0; i < allContactNames.length; i++)
                 listModel.addElement(allContactNames[i]);
         }
-        contactsList = new DarkList<>();
+        contactsList = new DarkList();
         contactsList.setModel(listModel);
         contentPane.setVisible(false);
         listScrollPane = new DarkScrollPane(contactsList);
@@ -156,7 +156,7 @@ public class MainScreen {
                 break;
             }
         }
-        System.out.println(position);
+        // System.out.println(position);
         return position;
     }
 

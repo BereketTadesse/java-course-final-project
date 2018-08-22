@@ -9,6 +9,7 @@ public class FileHandler {
     private static String lnameFile = "src/files/main/userdata/lname.dat"; // different directory to ImageIcon
     private static String contactDir = "src/files/main/contacts";
     private static String maxFile = contactDir + "/max.dat";
+    private static String lifetimeFile = contactDir + "/lifetime.dat";
 
     public static boolean userFileExists() {
         directoriesExist();
@@ -82,6 +83,7 @@ public class FileHandler {
                 objSave.flush();
                 objSave.close();
                 saveMaxFile(Contact.getAvailableContacts());
+                saveLifetimeFile();
                 return true;
             }
             else
@@ -142,7 +144,7 @@ public class FileHandler {
         }
     }
 
-    public static int readMaxFile() {
+    static int readMaxFile() {
         int availableContacts = Contact.getAvailableContacts();
         Integer availableContactsWrapper;
         try (InputStream maxFileInStream = new FileInputStream(maxFile)) {
@@ -160,7 +162,42 @@ public class FileHandler {
         }
     }
 
-    public static boolean maxFileExists() {
+    static void saveLifetimeFile() {
+        Integer lifetimeContactsWrapper = valueOf(Contact.getLifeTimeContacts());
+
+        try (OutputStream lifetimeFileStream = new FileOutputStream(lifetimeFile)) {
+            File lifetimeFileCheck = new File(lifetimeFile);
+            ObjectOutputStream maxFileObjStream = new ObjectOutputStream(lifetimeFileStream);
+            if (lifetimeFileCheck.exists()) {
+                maxFileObjStream.writeObject(lifetimeContactsWrapper);
+                maxFileObjStream.flush();
+                maxFileObjStream.close();
+            }
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    static int readLifetimeFile() {
+        int lifetimeContacts = Contact.getLifeTimeContacts();
+        Integer lifetimeContactsWrapper;
+        try (InputStream lifetimeFileInStream = new FileInputStream(lifetimeFile)) {
+            ObjectInputStream lifetimeFileObjInStream = new ObjectInputStream(lifetimeFileInStream);
+            lifetimeContactsWrapper = (Integer) lifetimeFileObjInStream.readObject();
+            lifetimeContacts = lifetimeContactsWrapper;
+            // System.out.println(availableContacts);
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+            new ContactReadError();
+        }
+        finally {
+            return lifetimeContacts;
+        }
+    }
+
+    static boolean maxFileExists() {
         try {
             File file = new File(maxFile);
             return file.exists();
@@ -168,22 +205,32 @@ public class FileHandler {
         catch (Exception exception) {
             return false;
         }
-
     }
 
-    public static Contact[] readAllContacts() {
-        int numberOfContacts;
+    static boolean lifetimeFileExists() {
+        try {
+            File file = new File(lifetimeFile);
+            return file.exists();
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+    static Contact[] readAllContacts() {
+        int numberOfContacts, lifetimeContacts;
         int index = 0;
-        File contact;
         numberOfContacts = FileHandler.readMaxFile();
+        lifetimeContacts = FileHandler.readLifetimeFile();
         // System.out.println(numberOfContacts);
         Contact[] allContacts = new Contact[numberOfContacts];
-        for (int i = 0; i < numberOfContacts; i++) {
+        for (int i = 0; i < numberOfContacts && index < lifetimeContacts; i++) {
             allContacts[i] = readContactFile(Contact.getInitialContactID() + index);
             if (allContacts[i] == null)
                 i--;
             index++;
         }
+        Contact.lifeTimeContacts = readLifetimeFile();
         return allContacts;
     }
 
