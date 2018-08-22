@@ -13,27 +13,26 @@ public class MainScreen {
     private static JFrame frame = new JFrame("Contacts");
     private static Container contentPane = frame.getContentPane();
 
-    public static final Color DARKER_GRAY = new Color(48, 48, 48);
-    public static final Color MAIN_PANEL_COLOR = new Color(56, 56, 56);
-    public static final Color LINK_COLOR = new Color(49, 115, 175);
+    static final Color DARKER_GRAY = new Color(48, 48, 48);
+    static final Color MAIN_PANEL_COLOR = new Color(56, 56, 56);
+    static final Color LINK_COLOR = new Color(49, 115, 175);
 
     private static JPanel titleContainer = new JPanel();
     static JPanel panel = new JPanel(new BorderLayout());;
 
     private static final String EMPTY_SPACE = "                ";
 
-    JPanel addContactButtonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    DarkButton addContactBtn = new DarkButton("New contact", DarkButton.GREEN);
+    private JPanel addContactButtonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    private DarkButton addContactBtn = new DarkButton("New contact", DarkButton.GREEN);
 
-    User user = new User();
+    private User user = new User();
     static DarkList contactsList;
-    private static DarkScrollPane listScrollPane;
-    public static Contact[] allContacts;
-    static String[] allContactNames;
+    static Contact[] allContacts;
+    private static String[] allContactNames;
     private static DefaultListModel listModel = new DefaultListModel();
 
-    public static final int DELETE = 0;
-    public static final int ADD = 1;
+    static final int DELETE = 0;
+    static final int ADD = 1;
 
 
     MainScreen() {
@@ -102,6 +101,7 @@ public class MainScreen {
     }
 
     private static void generateContactList(boolean isUpdate) {
+        DarkScrollPane listScrollPane;
         if (isUpdate)
             listModel.addElement(allContactNames[allContactNames.length - 1]);
         else {

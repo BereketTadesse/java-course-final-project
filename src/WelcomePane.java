@@ -36,7 +36,7 @@ class WelcomePane extends JFrame {
     }
 
     private void initPanel() {
-        panel.setBackground(Color.DARK_GRAY);
+        panel.setBackground(MainScreen.DARKER_GRAY);
         // panel.setBackground(MainScreen.DARKER_GRAY);
         welcome.setFont(new Font("Sans Serif", Font.BOLD, 70));
         tellus.setFont(new Font("Sans Serif", Font.PLAIN, 16));

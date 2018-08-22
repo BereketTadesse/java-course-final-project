@@ -6,8 +6,8 @@ import java.net.URL;
 public abstract class ErrorDialog extends JDialog {
     private Container cp = getContentPane();
     private static DarkButton ok = new DarkButton("OK");
-    private ImageIcon errorIcon = new ImageIcon(getClass().getResource("files/images/error-icon.png"));
-    private JLabel icon = new JLabel(errorIcon);
+    private ImageIcon errorIcon;
+    private JLabel icon;
     public static final Color ERROR_TEXT_COLOR = new Color(200, 80, 80);
     private static ColoredLabel error = new ColoredLabel("Error!", ERROR_TEXT_COLOR);
     private ColoredLabel failText = new ColoredLabel();
@@ -15,8 +15,18 @@ public abstract class ErrorDialog extends JDialog {
     private GridBagConstraints constraints = new GridBagConstraints();
 
     ErrorDialog() {
+        URL errorImg = getClass().getResource("files/images/error-icon.png");
+        if (errorImg != null) {
+            errorIcon = new ImageIcon(errorImg);
+            icon = new JLabel(errorIcon);
+        }
+        else {
+            icon = new JLabel("!");
+            icon.setForeground(ERROR_TEXT_COLOR);
+        }
+
         init();
-        panel.setBackground(Color.DARK_GRAY);
+        panel.setBackground(MainScreen.DARKER_GRAY);
         cp.add(panel);
 
         URL imgurl = getClass().getResource("files/images/icon(32x32_light).png");
@@ -24,6 +34,7 @@ public abstract class ErrorDialog extends JDialog {
             ImageIcon icon = new ImageIcon(imgurl);
             setIconImage(icon.getImage());
         }
+
         setTitle("Error");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocation(533, 250);

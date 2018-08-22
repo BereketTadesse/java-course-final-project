@@ -8,9 +8,6 @@ public class DeleteWarningPanel extends JDialog {
     private static JPanel panel = new JPanel(new GridBagLayout());
     private static GridBagConstraints panelConstraints = new GridBagConstraints();
 
-    private ImageIcon errorIcon = new ImageIcon(getClass().getResource("files/images/error-icon.png"));
-    private JLabel icon = new JLabel(errorIcon);
-
     private static ColoredLabel deleteTitle = new ColoredLabel("Delete contact?", ErrorDialog.ERROR_TEXT_COLOR);
     private static ColoredLabel areYouSure = new ColoredLabel("Are you sure?");
     private static ColoredLabel canNotBeRecovered = new ColoredLabel("(Deleted contacts can't be recovered)");
@@ -34,14 +31,14 @@ public class DeleteWarningPanel extends JDialog {
     }
 
     private void init() {
-        contentPane.setBackground(Color.DARK_GRAY);
+        contentPane.setBackground(MainScreen.DARKER_GRAY);
         contentPane.setForeground(Color.LIGHT_GRAY);
         initPanel();
         initActionListeners();
     }
 
     private void initPanel() {
-        panel.setBackground(Color.DARK_GRAY);
+        panel.setBackground(MainScreen.DARKER_GRAY);
         panel.setForeground(Color.LIGHT_GRAY);
 
         deleteTitle.setFontSize(20);
