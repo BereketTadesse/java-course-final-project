@@ -6,8 +6,8 @@ import java.awt.*;
  */
 public class DarkButton extends JButton {
     private static final Color FONT_COLOR = new Color(200, 200, 200);
-    public static final Color DEFAULT_COLOR = new Color(80, 80,80);
-    public static final Color DEFAULT_PRESSED_COLOR = new Color(96, 96, 96);
+    static final Color DEFAULT_COLOR = new Color(80, 80,80);
+    private static final Color DEFAULT_PRESSED_COLOR = new Color(96, 96, 96);
     private static final Color DEFAULT_DISABLED_COLOR = new Color(72, 72, 72);
     private static final Color GREEN_COLOR = new Color(80, 128,80);
     private static final Color GREEN_PRESSED_COLOR = new Color(96, 160,96);
@@ -16,12 +16,12 @@ public class DarkButton extends JButton {
     private static final Color BLUE_COLOR = new Color(64, 96, 128 );
     private static final Color BLUE_PRESSED_COLOR = new Color(64, 128, 160 );
 
-    public static final int GREEN = 1;
-    public static final int RED = 2;
-    public static final int BLUE = 3;
+    static final int GREEN = 1;
+    static final int RED = 2;
+    static final int BLUE = 3;
 
 
-    DarkButton() {
+    private DarkButton() {
         setBorderPainted(false);
         setContentAreaFilled(false);
         setFocusPainted(false);
