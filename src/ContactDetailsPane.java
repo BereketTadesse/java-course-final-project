@@ -3,7 +3,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class ContactDetailsPane extends JPanel {
+class ContactDetailsPane extends JPanel {
     private DarkButton deleteButton = new DarkButton("Delete", DarkButton.RED);
     // DarkButton newContact = new DarkButton("New Contact");
     // public static Color MAIN_BORDER_COLOR = new Color(64, 64, 64);
@@ -17,11 +17,11 @@ public class ContactDetailsPane extends JPanel {
     private GridBagConstraints contactDetailConstraints = new GridBagConstraints();
 
     private ColoredLabel name;
-    public static ColoredLabel id;
+    static ColoredLabel id;
     private ColoredLabel[] phoneNumbers;
 
 
-    ContactDetailsPane() {
+    private ContactDetailsPane() {
         setBackground(MainScreen.MAIN_PANEL_COLOR);
         setForeground(Color.LIGHT_GRAY);
         setBorder(new EmptyBorder(0, 20, 20, 20));
