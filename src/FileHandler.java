@@ -148,7 +148,7 @@ public class FileHandler {
         try (InputStream maxFileInStream = new FileInputStream(maxFile)) {
             ObjectInputStream maxFileObjInStream = new ObjectInputStream(maxFileInStream);
             availableContactsWrapper = (Integer) maxFileObjInStream.readObject();
-            availableContacts = availableContactsWrapper.intValue();
+            availableContacts = availableContactsWrapper;
             // System.out.println(availableContacts);
         }
         catch (IOException exception) {

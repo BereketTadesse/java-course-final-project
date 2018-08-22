@@ -6,16 +6,18 @@ class Contact implements Serializable {
     private String lname;
     private String[] phoneNumbers;
     private static int initialContactID = 10000;
+    private static int lifeTimeContacts = 0;
     static int availableContacts = 0;
 
     static final int MAX_PHONES = 5;
 
     Contact(String fname, String lname, String[] phoneNumbers) {
-        this.id = initialContactID + availableContacts;
+        this.id = initialContactID + lifeTimeContacts;
         this.fname = fname;
         this.lname = lname;
         this.phoneNumbers = phoneNumbers;
         availableContacts++;
+        lifeTimeContacts++;
     }
 
     static int getAvailableContacts() {
