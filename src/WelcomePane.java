@@ -112,7 +112,7 @@ class WelcomePane extends JFrame {
     private void addInvisibleError() {
         constraints.gridy = 7;
         constraints.gridwidth = 3;
-        constraints.insets = new Insets(20, 10, 0, 10);
+        constraints.insets = new Insets(10, 10, 0, 10);
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.fill = GridBagConstraints.NONE;
         fnameError.setFont(new Font("Sans Serif", Font.BOLD, 12));

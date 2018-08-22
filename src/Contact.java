@@ -6,20 +6,9 @@ class Contact implements Serializable {
     private String lname;
     private String[] phoneNumbers;
     private static int initialContactID = 10000;
-    public static int availableContacts = 0;
+    static int availableContacts = 0;
 
-    public static final int MAX_PHONES = 5;
-
-    Contact() {
-    }
-
-    Contact(Contact c) {
-        this.id = c.id;
-        this.fname = c.fname;
-        this.lname = c.lname;
-        this.phoneNumbers = c.phoneNumbers;
-        availableContacts++;
-    }
+    static final int MAX_PHONES = 5;
 
     Contact(String fname, String lname, String[] phoneNumbers) {
         this.id = initialContactID + availableContacts;
@@ -29,56 +18,28 @@ class Contact implements Serializable {
         availableContacts++;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
-    public static int getAvailableContacts() {
+    static int getAvailableContacts() {
         return availableContacts;
     }
 
-    public void addPhoneNumbers(String newNumber) {
-        String[] newList = new String[phoneNumbers.length + 1];
-
-        for (int i = 0; i < phoneNumbers.length; i++)
-            newList[i] = phoneNumbers[i];
-        newList[newList.length - 1] = newNumber;
-    }
-
-    public int getId() {
+    int getId() {
         return id;
     }
 
-    public String getFname() {
+    String getFname() {
         return fname;
     }
 
-    public String getLname() {
+    String getLname() {
         return lname;
     }
 
-    public String[] getPhoneNumbers() {
+    String[] getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public static int getInitialContactID() {
+    static int getInitialContactID() {
         return initialContactID;
-    }
-
-    public void view() {
-        System.out.println("ID: " + id);
-        System.out.println("First Name: " + fname);
-        System.out.println("Last Name: " + lname);
-        for (int i = 0; phoneNumbers[i] != null; i++)
-            System.out.println("Phone " + (i + 1) + ": " + phoneNumbers[i]);
     }
 
 }
@@ -96,19 +57,19 @@ class User {
         this.lname = lname;
     }
 
-    public void setFname(String fname) {
+    void setFname(String fname) {
         this.fname = fname;
     }
 
-    public void setLname(String lname) {
+    void setLname(String lname) {
         this.lname = lname;
     }
 
-    public String getFname() {
+    String getFname() {
         return fname;
     }
 
-    public String getLname() {
+    String getLname() {
         return lname;
     }
 }
