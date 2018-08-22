@@ -45,7 +45,7 @@ public class DeleteWarningPanel extends JDialog {
         panel.setForeground(Color.LIGHT_GRAY);
 
         deleteTitle.setFontSize(20);
-        deleteTitle.setBold(true);
+        deleteTitle.setBold();
 
         panelConstraints.gridx = 0;
         panelConstraints.gridy = 0;

@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ColoredLabel extends JLabel {
+class ColoredLabel extends JLabel {
     private Font currentFont = new Font("Sans Serif", Font.PLAIN, 12);
 
     ColoredLabel() {
@@ -16,7 +16,7 @@ public class ColoredLabel extends JLabel {
         setText(text);
     }
 
-    ColoredLabel(Color color) {
+    private ColoredLabel(Color color) {
         setForeground(color);
         this.setFont(currentFont);
     }
@@ -26,25 +26,19 @@ public class ColoredLabel extends JLabel {
         setText(text);
     }
 
-    public void setFontSize(int newSize) {
-        Font newFont = new Font(currentFont.getFontName(), currentFont.getStyle(), newSize);
-        currentFont = newFont;
+    void setFontSize(int newSize) {
+        currentFont = new Font(currentFont.getFontName(), currentFont.getStyle(), newSize);
         this.setFont(currentFont);
     }
 
-    public void setBold(boolean wantBold) {
-        Font newFont;
-        if (wantBold)
-            newFont = new Font(currentFont.getFontName(), Font.BOLD , currentFont.getSize());
-        else
-            newFont = new Font(currentFont.getFontName(), Font.PLAIN , currentFont.getSize());
-        currentFont = newFont;
+    void setBold() {
+        currentFont = new Font(currentFont.getFontName(), Font.BOLD , currentFont.getSize());
         this.setFont(currentFont);
     }
 }
 
 class ColoredLink extends ColoredLabel {
-    public static Color LINK_HOVER_COLOR = new Color(100, 155, 180);
+    private static Color LINK_HOVER_COLOR = new Color(100, 155, 180);
 
     ColoredLink(String text) {
         super(text, MainScreen.LINK_COLOR);

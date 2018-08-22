@@ -209,7 +209,7 @@ public class MainScreen {
             return;
         }
         ColoredLabel welcomeText = new ColoredLabel("Hi, " + user.getFname() + "!");
-        welcomeText.setBold(true);
+        welcomeText.setBold();
         welcomeText.setFontSize(24);
         welcomeText.setForeground(new Color(200, 200, 200));
         welcomeText.setBorder(new EmptyBorder(10, 13, 10, 0));

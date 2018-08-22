@@ -51,7 +51,7 @@ public class ContactDetailsPane extends JPanel {
         optionsPanel.add(name);
         name.setFontSize(20);
         name.setBorder(new EmptyBorder(0, 0, 0, 50));
-        name.setBold(true);
+        name.setBold();
         optionsPanel.add(id);
         id.setBorder(new EmptyBorder(0, 0, 0, 20));
         deleteButton.addMouseListener(new DeleteAction());
@@ -102,9 +102,9 @@ public class ContactDetailsPane extends JPanel {
     private void initNoContactsPane() {
         ColoredLabel frown = new ColoredLabel(":( ", new Color(72, 72, 72));
         ColoredLabel nothingHere = new ColoredLabel("There seems to be nothing here", new Color(72, 72, 72));
-        frown.setBold(true);
+        frown.setBold();
         frown.setFontSize(120);
-        nothingHere.setBold(true);
+        nothingHere.setBold();
         nothingHere.setFontSize(36);
         setBackground(MainScreen.DARKER_GRAY);
         noContactsContainer.setBackground(MainScreen.DARKER_GRAY);

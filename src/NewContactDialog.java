@@ -153,7 +153,7 @@ public class NewContactDialog extends JDialog {
 
     private void initTitle() {
         title.setFontSize(36);
-        title.setBold(true);
+        title.setBold();
 
         constraints.gridx = 0;
         constraints.gridy = 0;
