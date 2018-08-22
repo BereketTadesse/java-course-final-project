@@ -18,9 +18,7 @@ public class MainScreen {
     static final Color LINK_COLOR = new Color(49, 115, 175);
 
     private static JPanel titleContainer = new JPanel();
-    static JPanel panel = new JPanel(new BorderLayout());;
-
-    private static final String EMPTY_SPACE = "                ";
+    static JPanel panel = new JPanel(new BorderLayout());
 
     private JPanel addContactButtonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
     private DarkButton addContactBtn = new DarkButton("New contact", DarkButton.GREEN);
@@ -100,6 +98,7 @@ public class MainScreen {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private static void generateContactList(boolean isUpdate) {
         DarkScrollPane listScrollPane;
         if (isUpdate)
@@ -160,7 +159,8 @@ public class MainScreen {
         return position;
     }
 
-    public static void updateContactList(Contact contact, int action) {
+    @SuppressWarnings("unchecked")
+    static void updateContactList(Contact contact, int action) {
         Contact[] newContactsList;
         int position;
         if (action == ADD) {
@@ -185,7 +185,7 @@ public class MainScreen {
                 if (i < position)
                     newContactsList[i] = allContacts[i];
                 else if (i == position)
-                    continue;
+                    continue; // Should have avoided this, but it works
                 else
                     newContactsList[i - 1] = allContacts[i];
             }
@@ -219,8 +219,8 @@ public class MainScreen {
 }
 
 class ListSelectionAction implements ListSelectionListener {
-    int selection;
-    static int previousSelection = -1;
+    private int selection;
+    private static int previousSelection = -1;
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {

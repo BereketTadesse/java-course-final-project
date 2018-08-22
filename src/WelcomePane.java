@@ -17,7 +17,6 @@ class WelcomePane extends JFrame {
     private DarkTextField lnameField = new DarkTextField();
 
     WelcomePane() {
-        // ImageIcon icon = new ImageIcon("./files/images/icon(32x32).png");
         Container contentPane = getContentPane();
         initPanel();
         contentPane.add(panel);
